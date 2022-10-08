@@ -1,0 +1,19 @@
+{
+  "name": "@naporin0624/blog",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "ultra -r test"
+  },
+  "author": "@naporin0624",
+  "license": "MIT",
+  "workspaces": [
+    "projects/app",
+    "projects/server",
+    "projects/homepage"
+  ],
+  "devDependencies": {
+    "ultra-runner": "^3.10.5"
+  }
+}

@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "projects/homepage"
+		},
+		{
+			"path": "projects/blog"
+		},
+		{
+			"path": "projects/api"
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "blog/node_modules/typescript/lib"
+	}
+}
