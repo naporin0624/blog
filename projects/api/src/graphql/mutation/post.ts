@@ -6,13 +6,17 @@ export const PostMutation = extendType({
     t.field("createPost", {
       type: nonNull("Post"),
       args: { data: nonNull(arg({ type: "CreatePostInput" })) },
+      authorize(root, args, { db }) {
+        return true;
+      },
       async resolve(source, { data }, { db }) {
         const { tag, ...rest } = data;
 
         const post = await db.post.create({
           data: {
             ...rest,
-            tag: { connect: tag.map((t) => ({ id: t })) },
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            tag: { connect: (tag ?? []).map((t) => ({ id: t })) },
           },
         });
 
@@ -23,6 +27,9 @@ export const PostMutation = extendType({
     t.field("updatePost", {
       type: nonNull("Post"),
       args: { data: nonNull(arg({ type: "UpdatePostInput" })) },
+      authorize(root, args, { db }) {
+        return true;
+      },
       async resolve(source, { data }, { db }) {
         const { id, ...rest } = data;
         await db.post.update({
@@ -46,6 +53,9 @@ export const PostMutation = extendType({
     t.field("deletePost", {
       type: nonNull("Boolean"),
       args: { data: nonNull(arg({ type: "PostUniqueWhereInput" })) },
+      authorize(root, args, { db }) {
+        return true;
+      },
       async resolve(source, { data }, { db }) {
         try {
           await db.post.delete({ where: data });
@@ -60,6 +70,9 @@ export const PostMutation = extendType({
     t.field("publishPost", {
       type: nonNull("Boolean"),
       args: { data: nonNull(arg({ type: "PostUniqueWhereInput" })) },
+      authorize(root, args, { db }) {
+        return true;
+      },
       async resolve(_source, { data }, { db }) {
         try {
           await db.post.update({

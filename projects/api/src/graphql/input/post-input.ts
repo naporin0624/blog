@@ -6,7 +6,7 @@ export const CreatePostInput = inputObjectType({
     t.nonNull.string("title");
     t.nonNull.string("body");
     t.date("publishedAt");
-    t.nonNull.list.nonNull.int("tag");
+    t.list.nonNull.int("tag");
   },
 });
 
@@ -25,5 +25,22 @@ export const PostUniqueWhereInput = inputObjectType({
   name: "PostUniqueWhereInput",
   definition(t) {
     t.nonNull.int("id");
+  },
+});
+
+export const PostOrderInput = inputObjectType({
+  name: "PostOrderInput",
+  definition(t) {
+    t.field("title", { type: "Order" });
+    t.field("publishedAt", { type: "Order" });
+  },
+});
+
+export const PostWhereInput = inputObjectType({
+  name: "PostWhereInput",
+  definition(t) {
+    t.string("title");
+    t.string("tag");
+    t.date("publishedAt");
   },
 });

@@ -7,7 +7,7 @@ scalar Color
 input CreatePostInput {
   body: String!
   publishedAt: Date
-  tag: [Int!]!
+  tag: [Int!]
   title: String!
 }
 
@@ -27,6 +27,12 @@ type Mutation {
   updatePost(data: UpdatePostInput!): Post!
 }
 
+""""""
+enum Order {
+  asc
+  desc
+}
+
 type Post {
   body: String
   createdAt: Date
@@ -37,12 +43,24 @@ type Post {
   updatedAt: Date
 }
 
+input PostOrderInput {
+  publishedAt: Order
+  title: Order
+}
+
 input PostUniqueWhereInput {
   id: Int!
 }
 
+input PostWhereInput {
+  publishedAt: Date
+  tag: String
+  title: String
+}
+
 type Query {
-  posts: [Post!]
+  posts(order: PostOrderInput = {publishedAt: desc}, where: PostWhereInput): [Post!]
+  publishedPosts(order: PostOrderInput = {publishedAt: desc}, where: PostWhereInput): [Post!]
   tags(where: TagWhereInput): [Tag!]
 }
 

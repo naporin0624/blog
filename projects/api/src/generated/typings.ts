@@ -45,15 +45,24 @@ export interface NexusGenInputs {
   CreatePostInput: { // input type
     body: string; // String!
     publishedAt?: NexusGenScalars['Date'] | null; // Date
-    tag: number[]; // [Int!]!
+    tag?: number[] | null; // [Int!]
     title: string; // String!
   }
   CreateTagInput: { // input type
     color: NexusGenScalars['Color']; // Color!
     name: string; // String!
   }
+  PostOrderInput: { // input type
+    publishedAt?: NexusGenEnums['Order'] | null; // Order
+    title?: NexusGenEnums['Order'] | null; // Order
+  }
   PostUniqueWhereInput: { // input type
     id: number; // Int!
+  }
+  PostWhereInput: { // input type
+    publishedAt?: NexusGenScalars['Date'] | null; // Date
+    tag?: string | null; // String
+    title?: string | null; // String
   }
   TagUniqueWhereInput: { // input type
     id: number; // Int!
@@ -72,6 +81,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  Order: "asc" | "desc"
 }
 
 export interface NexusGenScalars {
@@ -110,7 +120,7 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
@@ -131,6 +141,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     posts: NexusGenRootTypes['Post'][] | null; // [Post!]
+    publishedPosts: NexusGenRootTypes['Post'][] | null; // [Post!]
     tags: NexusGenRootTypes['Tag'][] | null; // [Tag!]
   }
   Tag: { // field return type
@@ -160,6 +171,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     posts: 'Post'
+    publishedPosts: 'Post'
     tags: 'Tag'
   }
   Tag: { // field return type name
@@ -189,6 +201,14 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    posts: { // args
+      order: NexusGenInputs['PostOrderInput'] | null; // PostOrderInput
+      where?: NexusGenInputs['PostWhereInput'] | null; // PostWhereInput
+    }
+    publishedPosts: { // args
+      order: NexusGenInputs['PostOrderInput'] | null; // PostOrderInput
+      where?: NexusGenInputs['PostWhereInput'] | null; // PostWhereInput
+    }
     tags: { // args
       where?: NexusGenInputs['TagWhereInput'] | null; // TagWhereInput
     }
@@ -205,7 +225,7 @@ export type NexusGenObjectNames = keyof NexusGenObjects;
 
 export type NexusGenInputNames = keyof NexusGenInputs;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = never;
 

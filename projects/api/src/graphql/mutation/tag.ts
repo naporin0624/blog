@@ -6,6 +6,9 @@ export const TagMutation = extendType({
     t.field("createTag", {
       type: nonNull("Tag"),
       args: { data: nonNull(arg({ type: "CreateTagInput" })) },
+      authorize(root, args, { db }) {
+        return false;
+      },
       async resolve(source, { data }, { db }) {
         return db.tag.create({ data });
       },
