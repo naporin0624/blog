@@ -1,29 +1,20 @@
 /* eslint-disable no-console */
-import { ApolloServer } from "apollo-server-express";
+import cors from "cors";
 import express from "express";
+import { graphqlUploadExpress } from "graphql-upload-ts";
 
-import { context } from "./context";
-import { schema } from "./graphql";
-
-const port = parseInt(`${process.env.PORT ?? "4000"}`);
+import { apolloServer } from "./graphql";
+import { fileSize } from "./shared/config";
 
 async function bootstrap() {
   const app = express();
-  const server = new ApolloServer({
-    schema,
-    cache: "bounded",
-    context,
-    formatError(error) {
-      if (error.extensions.exception) {
-        error.extensions.exception.stacktrace = undefined;
-      }
+  app.use(cors());
+  app.use(graphqlUploadExpress({ maxFileSize: fileSize, maxFiles: 10 }));
 
-      return error;
-    },
-  });
-  await server.start();
+  await apolloServer.start();
+  apolloServer.applyMiddleware({ app, path: "/graphql" });
 
-  server.applyMiddleware({ app, path: "/graphql" });
+  const port = process.env.PORT ?? 4000;
   app.listen({ port }, () => {
     console.log(`server on http://localhost:${port}/graphql`);
   });

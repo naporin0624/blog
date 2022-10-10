@@ -10,11 +10,14 @@ export const PostMutation = extendType({
         return true;
       },
       async resolve(source, { data }, { db }) {
-        const { tag, ...rest } = data;
+        const { tag, thumbnail, ...rest } = data;
+        const file = await thumbnail;
+        file?.createReadStream();
 
         const post = await db.post.create({
           data: {
             ...rest,
+            thumbnail: "",
             // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             tag: { connect: (tag ?? []).map((t) => ({ id: t })) },
           },

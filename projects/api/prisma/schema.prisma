@@ -13,10 +13,11 @@ datasource db {
 }
 
 model Post {
-  id    Int    @id @default(autoincrement())
-  title String
-  body  String
-  tag   Tag[]
+  id        Int    @id @default(autoincrement())
+  thumbnail String
+  title     String
+  body      String
+  tag       Tag[]
 
   publishedAt DateTime?
   createdAt   DateTime  @default(now())

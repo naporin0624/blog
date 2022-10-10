@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 interface Env {
-  PORT: string | undefined;
+  PORT: number | undefined;
+  NODE_ENV: "development" | "production";
 }
 
 declare namespace NodeJS {

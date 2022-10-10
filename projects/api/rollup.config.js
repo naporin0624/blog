@@ -1,6 +1,7 @@
 import path from "path";
 
 import alias from "@rollup/plugin-alias";
+import dotenv from "rollup-plugin-dotenv";
 import esbuild from "rollup-plugin-esbuild";
 import resolve from "rollup-plugin-node-resolve";
 
@@ -23,6 +24,7 @@ const config = {
       ],
     }),
     esbuild(),
+    dotenv(),
   ],
   input: {
     index: path.join(__dirname, rootDir, "index.ts"),

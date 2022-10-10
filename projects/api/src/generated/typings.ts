@@ -5,6 +5,7 @@
 
 
 import type { Context } from "./../context"
+import type { Upload } from "./../graphql/shared/scalar/upload"
 import type { core, connectionPluginCore } from "nexus"
 import type { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin"
 import type { QueryComplexity } from "nexus/dist/plugins/queryComplexityPlugin"
@@ -15,6 +16,14 @@ declare global {
      */
     date<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Date";
     color<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Color";
+    /**
+     * url
+     */
+    url<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "URL";
+    /**
+     * The `Upload` scalar type represents a file upload.
+     */
+    upload<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Upload";
   }
 }
 declare global {
@@ -24,6 +33,14 @@ declare global {
      */
     date<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Date";
     color<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Color";
+    /**
+     * url
+     */
+    url<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "URL";
+    /**
+     * The `Upload` scalar type represents a file upload.
+     */
+    upload<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Upload";
     /**
      * Adds a Relay-style connection to the type, with numerous options for configuration
      *
@@ -46,6 +63,7 @@ export interface NexusGenInputs {
     body: string; // String!
     publishedAt?: NexusGenScalars['Date'] | null; // Date
     tag?: number[] | null; // [Int!]
+    thumbnail?: NexusGenScalars['Upload'] | null; // Upload
     title: string; // String!
   }
   CreateTagInput: { // input type
@@ -76,6 +94,7 @@ export interface NexusGenInputs {
     id: number; // Int!
     publishedAt?: NexusGenScalars['Date'] | null; // Date
     tag: number[] | null; // [Int!]
+    thumbnail?: NexusGenScalars['URL'] | null; // URL
     title?: string | null; // String
   }
 }
@@ -92,6 +111,8 @@ export interface NexusGenScalars {
   ID: string
   Color: string
   Date: Date
+  URL: string
+  Upload: Upload
 }
 
 export interface NexusGenObjects {
@@ -101,6 +122,7 @@ export interface NexusGenObjects {
     createdAt?: NexusGenScalars['Date'] | null; // Date
     id?: number | null; // Int
     publishedAt?: NexusGenScalars['Date'] | null; // Date
+    thumbnail?: NexusGenScalars['URL'] | null; // URL
     title?: string | null; // String
     updatedAt?: NexusGenScalars['Date'] | null; // Date
   }
@@ -136,6 +158,7 @@ export interface NexusGenFieldTypes {
     id: number | null; // Int
     publishedAt: NexusGenScalars['Date'] | null; // Date
     tags: NexusGenRootTypes['Tag'][] | null; // [Tag!]
+    thumbnail: NexusGenScalars['URL'] | null; // URL
     title: string | null; // String
     updatedAt: NexusGenScalars['Date'] | null; // Date
   }
@@ -166,6 +189,7 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     publishedAt: 'Date'
     tags: 'Tag'
+    thumbnail: 'URL'
     title: 'String'
     updatedAt: 'Date'
   }

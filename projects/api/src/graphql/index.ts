@@ -1,41 +1,18 @@
-import { join } from "path";
+import { ApolloServer } from "apollo-server-express";
 
-import {
-  makeSchema,
-  connectionPlugin,
-  fieldAuthorizePlugin,
-  queryComplexityPlugin,
-} from "nexus";
+import { context } from "~/context";
 
-import * as Input from "./input";
-import * as Model from "./model";
-import * as Mutation from "./mutation";
-import * as Query from "./query";
-import * as Scalar from "./scalar";
+import { schema } from "./schema";
 
-export const schema = makeSchema({
-  types: [Scalar, Model, Input, Query, Mutation],
-  outputs: {
-    schema: join(__dirname, "../generated/schema.graphql"),
-    typegen: join(__dirname, "../generated/typings.ts"),
-  },
-  plugins: [
-    connectionPlugin({
-      extendConnection: {
-        totalCount: { type: "Int", requireResolver: false },
-      },
-    }),
-    fieldAuthorizePlugin(),
-    queryComplexityPlugin(),
-  ],
-  contextType: {
-    module: join(__dirname, "../context.ts"),
-    export: "Context",
-  },
-  features: {
-    abstractTypeStrategies: {
-      resolveType: true,
-      __typename: false,
-    },
+export const apolloServer = new ApolloServer({
+  schema,
+  cache: "bounded",
+  context,
+  formatError(error) {
+    if (error.extensions.exception) {
+      error.extensions.exception.stacktrace = undefined;
+    }
+
+    return error;
   },
 });

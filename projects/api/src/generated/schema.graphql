@@ -8,6 +8,7 @@ input CreatePostInput {
   body: String!
   publishedAt: Date
   tag: [Int!]
+  thumbnail: Upload
   title: String!
 }
 
@@ -39,6 +40,7 @@ type Post {
   id: Int
   publishedAt: Date
   tags: [Tag!]
+  thumbnail: URL
   title: String
   updatedAt: Date
 }
@@ -80,10 +82,17 @@ input TagWhereInput {
   name: [String!]
 }
 
+"""url"""
+scalar URL
+
 input UpdatePostInput {
   body: String
   id: Int!
   publishedAt: Date
   tag: [Int!] = []
+  thumbnail: URL
   title: String
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload

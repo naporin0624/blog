@@ -6,6 +6,7 @@ export const PostType = objectType({
     t.int("id");
     t.string("title");
     t.string("body");
+    t.url("thumbnail");
     t.date("publishedAt");
     t.date("createdAt");
     t.date("updatedAt");
