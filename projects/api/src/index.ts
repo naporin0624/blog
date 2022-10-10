@@ -6,6 +6,8 @@ import { graphqlUploadExpress } from "graphql-upload-ts";
 import { apolloServer } from "./graphql";
 import { fileSize } from "./shared/config";
 
+const port = parseInt(`${process.env.PORT ?? "4000"}`);
+
 async function bootstrap() {
   const app = express();
   app.use(cors());
@@ -14,7 +16,6 @@ async function bootstrap() {
   await apolloServer.start();
   apolloServer.applyMiddleware({ app, path: "/graphql" });
 
-  const port = process.env.PORT ?? 4000;
   app.listen({ port }, () => {
     console.log(`server on http://localhost:${port}/graphql`);
   });
