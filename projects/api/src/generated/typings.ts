@@ -4,9 +4,37 @@
  */
 
 
-
-
-
+import type { Context } from "./../context"
+import type { core, connectionPluginCore } from "nexus"
+import type { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin"
+import type { QueryComplexity } from "nexus/dist/plugins/queryComplexityPlugin"
+declare global {
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    /**
+     * Date custom scalar type
+     */
+    date<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Date";
+    color<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Color";
+  }
+}
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * Date custom scalar type
+     */
+    date<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Date";
+    color<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Color";
+    /**
+     * Adds a Relay-style connection to the type, with numerous options for configuration
+     *
+     * @see https://nexusjs.org/docs/plugins/connection
+     */
+    connectionField<FieldName extends string>(
+      fieldName: FieldName,
+      config: connectionPluginCore.ConnectionFieldConfig<TypeName, FieldName> & { totalCount?: connectionPluginCore.ConnectionFieldResolver<TypeName, FieldName, "totalCount"> }
+    ): void
+  }
+}
 
 
 declare global {
@@ -14,6 +42,33 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  CreatePostInput: { // input type
+    body: string; // String!
+    publishedAt?: NexusGenScalars['Date'] | null; // Date
+    tag: number[]; // [Int!]!
+    title: string; // String!
+  }
+  CreateTagInput: { // input type
+    color: NexusGenScalars['Color']; // Color!
+    name: string; // String!
+  }
+  PostUniqueWhereInput: { // input type
+    id: number; // Int!
+  }
+  TagUniqueWhereInput: { // input type
+    id: number; // Int!
+  }
+  TagWhereInput: { // input type
+    id?: number[] | null; // [Int!]
+    name?: string[] | null; // [String!]
+  }
+  UpdatePostInput: { // input type
+    body?: string | null; // String
+    id: number; // Int!
+    publishedAt?: NexusGenScalars['Date'] | null; // Date
+    tag: number[] | null; // [Int!]
+    title?: string | null; // String
+  }
 }
 
 export interface NexusGenEnums {
@@ -25,10 +80,26 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  Color: string
+  Date: Date
 }
 
 export interface NexusGenObjects {
+  Mutation: {};
+  Post: { // root type
+    body?: string | null; // String
+    createdAt?: NexusGenScalars['Date'] | null; // Date
+    id?: number | null; // Int
+    publishedAt?: NexusGenScalars['Date'] | null; // Date
+    title?: string | null; // String
+    updatedAt?: NexusGenScalars['Date'] | null; // Date
+  }
   Query: {};
+  Tag: { // root type
+    color?: NexusGenScalars['Color'] | null; // Color
+    id?: number | null; // Int
+    name?: string | null; // String
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -42,21 +113,84 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Mutation: { // field return type
+    createPost: NexusGenRootTypes['Post']; // Post!
+    createTag: NexusGenRootTypes['Tag']; // Tag!
+    deletePost: boolean; // Boolean!
+    publishPost: boolean; // Boolean!
+    updatePost: NexusGenRootTypes['Post']; // Post!
+  }
+  Post: { // field return type
+    body: string | null; // String
+    createdAt: NexusGenScalars['Date'] | null; // Date
+    id: number | null; // Int
+    publishedAt: NexusGenScalars['Date'] | null; // Date
+    tags: NexusGenRootTypes['Tag'][] | null; // [Tag!]
+    title: string | null; // String
+    updatedAt: NexusGenScalars['Date'] | null; // Date
+  }
   Query: { // field return type
-    hello: string | null; // String
+    posts: NexusGenRootTypes['Post'][] | null; // [Post!]
+    tags: NexusGenRootTypes['Tag'][] | null; // [Tag!]
+  }
+  Tag: { // field return type
+    color: NexusGenScalars['Color'] | null; // Color
+    id: number | null; // Int
+    name: string | null; // String
+    posts: NexusGenRootTypes['Post'][] | null; // [Post!]
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Mutation: { // field return type name
+    createPost: 'Post'
+    createTag: 'Tag'
+    deletePost: 'Boolean'
+    publishPost: 'Boolean'
+    updatePost: 'Post'
+  }
+  Post: { // field return type name
+    body: 'String'
+    createdAt: 'Date'
+    id: 'Int'
+    publishedAt: 'Date'
+    tags: 'Tag'
+    title: 'String'
+    updatedAt: 'Date'
+  }
   Query: { // field return type name
-    hello: 'String'
+    posts: 'Post'
+    tags: 'Tag'
+  }
+  Tag: { // field return type name
+    color: 'Color'
+    id: 'Int'
+    name: 'String'
+    posts: 'Post'
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    createPost: { // args
+      data: NexusGenInputs['CreatePostInput']; // CreatePostInput!
+    }
+    createTag: { // args
+      data: NexusGenInputs['CreateTagInput']; // CreateTagInput!
+    }
+    deletePost: { // args
+      data: NexusGenInputs['PostUniqueWhereInput']; // PostUniqueWhereInput!
+    }
+    publishPost: { // args
+      data: NexusGenInputs['PostUniqueWhereInput']; // PostUniqueWhereInput!
+    }
+    updatePost: { // args
+      data: NexusGenInputs['UpdatePostInput']; // UpdatePostInput!
+    }
+  }
   Query: {
-    hello: { // args
-      name?: string | null; // String
+    tags: { // args
+      where?: NexusGenInputs['TagWhereInput'] | null; // TagWhereInput
     }
   }
 }
@@ -69,7 +203,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = never;
 
@@ -85,14 +219,14 @@ export type NexusGenAbstractsUsingStrategyResolveType = never;
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {
-    isTypeOf: false
     resolveType: true
     __typename: false
+    isTypeOf: false
   }
 }
 
 export interface NexusGenTypes {
-  context: any;
+  context: Context;
   inputTypes: NexusGenInputs;
   rootTypes: NexusGenRootTypes;
   inputTypeShapes: NexusGenInputs & NexusGenEnums & NexusGenScalars;
@@ -124,6 +258,22 @@ declare global {
   interface NexusGenPluginInputTypeConfig<TypeName extends string> {
   }
   interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {
+    
+    /**
+     * Authorization for an individual field. Returning "true"
+     * or "Promise<true>" means the field can be accessed.
+     * Returning "false" or "Promise<false>" will respond
+     * with a "Not Authorized" error for the field.
+     * Returning or throwing an error will also prevent the
+     * resolver from executing.
+     */
+    authorize?: FieldAuthorizeResolver<TypeName, FieldName>
+    /**
+     * The complexity for an individual field. Return a number
+     * or a function that returns a number to specify the
+     * complexity for this field.
+     */
+    complexity?: QueryComplexity<TypeName, FieldName>
   }
   interface NexusGenPluginInputFieldConfig<TypeName extends string, FieldName extends string> {
   }

@@ -1,11 +1,11 @@
 import path from "path";
 
 import alias from "@rollup/plugin-alias";
-import typescript from "@rollup/plugin-typescript";
+import esbuild from "rollup-plugin-esbuild";
 import resolve from "rollup-plugin-node-resolve";
 
-const rootDir = "src";
 const outDir = "dist";
+const rootDir = "src";
 
 const config = {
   treeshake: {
@@ -13,16 +13,21 @@ const config = {
     propertyReadSideEffects: true,
   },
   plugins: [
-    resolve(),
-    alias({ entries: { "~": path.resolve(__dirname, rootDir) } }),
-    typescript({ tsconfig: "./tsconfig.json" }),
+    alias({
+      customResolver: resolve({ extensions: [".ts"] }),
+      entries: [
+        {
+          find: /~/,
+          replacement: path.resolve(__dirname, "./src/"),
+        },
+      ],
+    }),
+    esbuild(),
   ],
-  input: path.join(__dirname, rootDir, "index.ts"),
-  output: [
-    {
-      dir: outDir,
-    },
-  ],
+  input: {
+    index: path.join(__dirname, rootDir, "index.ts"),
+  },
+  output: [{ dir: outDir, format: "cjs", sourcemap: false }],
 };
 
 export default config;

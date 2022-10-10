@@ -1,30 +1,32 @@
-import { join } from "path";
+/* eslint-disable no-console */
+import { ApolloServer } from "apollo-server-express";
+import express from "express";
 
-import { createServer } from "graphql-yoga";
-import { queryType, stringArg, makeSchema } from "nexus";
+import { context } from "./context";
+import { schema } from "./graphql";
 
 const port = parseInt(`${process.env.PORT ?? "4000"}`);
 
-const Query = queryType({
-  definition(t) {
-    t.string("hello", {
-      args: { name: stringArg() },
-      resolve: (parent, { name }) => `Hello ${name || "World"}!`,
-    });
-  },
-});
+async function bootstrap() {
+  const app = express();
+  const server = new ApolloServer({
+    schema,
+    cache: "bounded",
+    context,
+    formatError(error) {
+      if (error.extensions.exception) {
+        error.extensions.exception.stacktrace = undefined;
+      }
 
-const schema = makeSchema({
-  types: [Query],
-  outputs: {
-    schema: join(__dirname, "/generated/schema.graphql"),
-    typegen: join(__dirname, "/generated/typings.ts"),
-  },
-});
+      return error;
+    },
+  });
+  await server.start();
 
-const server = createServer({
-  port,
-  schema,
-});
+  server.applyMiddleware({ app, path: "/graphql" });
+  app.listen({ port }, () => {
+    console.log(`server on http://localhost:${port}/graphql`);
+  });
+}
 
-void server.start();
+void bootstrap();

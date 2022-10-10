@@ -4,13 +4,14 @@
 		"module": "commonjs",
 		"lib": ["ESNext"],
 		"strict": true,
-		"rootDir": ".",
+		"rootDir": "src",
 		"outDir": "dist",
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"baseUrl": ".",
 		"paths": {
 			"~/*": ["src/*"]
-		}
+		},
+		"skipLibCheck": true
 	}
 }

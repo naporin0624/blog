@@ -2,6 +2,70 @@
 ### Do not make changes to this file directly
 
 
+scalar Color
+
+input CreatePostInput {
+  body: String!
+  publishedAt: Date
+  tag: [Int!]!
+  title: String!
+}
+
+input CreateTagInput {
+  color: Color!
+  name: String!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+type Mutation {
+  createPost(data: CreatePostInput!): Post!
+  createTag(data: CreateTagInput!): Tag!
+  deletePost(data: PostUniqueWhereInput!): Boolean!
+  publishPost(data: PostUniqueWhereInput!): Boolean!
+  updatePost(data: UpdatePostInput!): Post!
+}
+
+type Post {
+  body: String
+  createdAt: Date
+  id: Int
+  publishedAt: Date
+  tags: [Tag!]
+  title: String
+  updatedAt: Date
+}
+
+input PostUniqueWhereInput {
+  id: Int!
+}
+
 type Query {
-  hello(name: String): String
+  posts: [Post!]
+  tags(where: TagWhereInput): [Tag!]
+}
+
+type Tag {
+  color: Color
+  id: Int
+  name: String
+  posts: [Post!]
+}
+
+input TagUniqueWhereInput {
+  id: Int!
+}
+
+input TagWhereInput {
+  id: [Int!]
+  name: [String!]
+}
+
+input UpdatePostInput {
+  body: String
+  id: Int!
+  publishedAt: Date
+  tag: [Int!] = []
+  title: String
 }

@@ -11,7 +11,8 @@
   "workspaces": [
     "projects/app",
     "projects/server",
-    "projects/homepage"
+    "projects/homepage",
+    "packages/suspense"
   ],
   "devDependencies": {
     "ultra-runner": "^3.10.5"

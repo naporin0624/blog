@@ -13,18 +13,19 @@ datasource db {
 }
 
 model Post {
-  id      Int    @id @default(autoincrement())
-  title   String
-  content String
-  tag     Tag[]
+  id    Int    @id @default(autoincrement())
+  title String
+  body  String
+  tag   Tag[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
 }
 
 model Tag {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String   @unique
   color     String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
