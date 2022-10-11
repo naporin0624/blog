@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 interface Env {
   PORT: string | undefined;
+  HOST: string | undefined;
   NODE_ENV: "development" | "production";
 }
 

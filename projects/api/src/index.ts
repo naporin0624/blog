@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+import http from "http";
+
 import cors from "cors";
 import express from "express";
 import { graphqlUploadExpress } from "graphql-upload-ts";
@@ -6,19 +8,22 @@ import { graphqlUploadExpress } from "graphql-upload-ts";
 import { apolloServer } from "./graphql";
 import { fileSize } from "./shared/config";
 
-const port = parseInt(`${process.env.PORT ?? "4000"}`);
-
 async function bootstrap() {
   const app = express();
+  const httpServer = http.createServer(app);
   app.use(cors());
   app.use(graphqlUploadExpress({ maxFileSize: fileSize, maxFiles: 10 }));
 
   await apolloServer.start();
   apolloServer.applyMiddleware({ app, path: "/graphql" });
 
-  app.listen({ port }, () => {
-    console.log(`server on http://localhost:${port}/graphql`);
-  });
+  httpServer.listen(
+    {
+      host: process.env.HOST || "0.0.0.0",
+      port: process.env.PORT || 4000,
+    },
+    () => console.log("🚀 Server ready at: http://localhost:4000")
+  );
 }
 
 void bootstrap();
