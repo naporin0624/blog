@@ -4,7 +4,7 @@ ENV NODE_ENV=development
 WORKDIR /usr/src/app
 COPY . .
 RUN npm i -w api
-RUN npm run biuld -w api
+RUN npm run build -w api
 
 FROM node:16-stretch-slim AS runner
 WORKDIR /app
