@@ -12,5 +12,5 @@ WORKDIR /app
 COPY package.json .
 COPY package-lock.json .
 RUN npm i --frozen-lockfile --production
-COPY --from=builder /app/projects/api/dist ./dist
+COPY --from=builder /usr/src/app/projects/api/dist ./dist
 CMD ["npm", "run", "start"]
