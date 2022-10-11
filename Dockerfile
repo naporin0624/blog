@@ -3,9 +3,8 @@ FROM node:16 AS builder
 ENV NODE_ENV=development
 WORKDIR /usr/src/app
 COPY . .
-RUN npm i
-RUN npx ultra -r --filter "api" build
-
+RUN npm i -w api
+RUN npm run biuld -w api
 
 FROM node:16-stretch-slim AS runner
 WORKDIR /app

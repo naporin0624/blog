@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "ultra -r test",
-    "build": "ultra -r build"
+    "build": "ultra -r build",
+    "dev": "ultra -r dev"
   },
   "author": "@naporin0624",
   "license": "MIT",
