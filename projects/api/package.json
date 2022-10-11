@@ -7,7 +7,6 @@
   "scripts": {
     "test": "vitest",
     "lint": "eslint src",
-    "prebuild": "rimraf dist",
     "build": "rollup -c rollup.config.js",
     "dev": "nodemon",
     "start": "NODE_ENV=production node dist/index.js",
@@ -46,7 +45,6 @@
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
     "prisma": "^4.4.0",
-    "rimraf": "^3.0.2",
     "rollup": "^2.79.1",
     "rollup-plugin-dotenv": "^0.4.0",
     "rollup-plugin-esbuild": "^4.10.1",
