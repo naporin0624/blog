@@ -16,13 +16,15 @@ async function bootstrap() {
 
   await apolloServer.start();
   apolloServer.applyMiddleware({ app, path: "/graphql" });
+  const host = process.env.HOST || "0.0.0.0";
+  const port = process.env.PORT || 4000;
 
   httpServer.listen(
     {
       host: process.env.HOST || "0.0.0.0",
-      port: process.env.PORT || 4000,
+      port,
     },
-    () => console.log("🚀 Server ready at: http://localhost:4000")
+    () => console.log(`🚀 Server ready at: http://${host}:${port}`)
   );
 }
 

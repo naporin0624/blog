@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ultra -r test"
+    "test": "ultra -r test",
+    "build": "ultra -r build"
   },
   "author": "@naporin0624",
   "license": "MIT",
   "workspaces": [
-    "projects/app",
-    "projects/server",
-    "projects/homepage"
+    "projects/blog",
+    "projects/api"
   ],
   "devDependencies": {
     "ultra-runner": "^3.10.5"

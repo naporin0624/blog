@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react(), splitVendorChunkPlugin()],
   build: {
     emptyOutDir: true,
-    outDir: join(__dirname, 'build')
+    outDir: join(__dirname, 'dist')
   },
   resolve: {
     alias: {
