@@ -5,7 +5,7 @@ export const CreatePostInput = inputObjectType({
   definition(t) {
     t.nonNull.string("title");
     t.nonNull.string("body");
-    t.upload("thumbnail");
+    t.nonNull.upload("thumbnail");
     t.date("publishedAt");
     t.list.nonNull.int("tag");
   },

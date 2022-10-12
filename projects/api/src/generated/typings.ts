@@ -63,7 +63,7 @@ export interface NexusGenInputs {
     body: string; // String!
     publishedAt?: NexusGenScalars['Date'] | null; // Date
     tag?: number[] | null; // [Int!]
-    thumbnail?: NexusGenScalars['Upload'] | null; // Upload
+    thumbnail: NexusGenScalars['Upload']; // Upload!
     title: string; // String!
   }
   CreateTagInput: { // input type

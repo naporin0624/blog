@@ -8,7 +8,7 @@ input CreatePostInput {
   body: String!
   publishedAt: Date
   tag: [Int!]
-  thumbnail: Upload
+  thumbnail: Upload!
   title: String!
 }
 

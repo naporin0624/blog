@@ -10,6 +10,6 @@ FROM node:16-stretch-slim AS runner
 WORKDIR /app
 COPY package.json .
 COPY package-lock.json .
-RUN npm i --frozen-lockfile --production
+RUN npm i --frozen-lockfile --production -w api
 COPY --from=builder /usr/src/app/projects/api/dist ./dist
 CMD NODE_ENV=production node dist

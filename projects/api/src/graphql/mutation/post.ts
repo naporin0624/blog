@@ -1,3 +1,4 @@
+import FormData from "form-data";
 import { extendType, arg, nonNull } from "nexus";
 
 export const PostMutation = extendType({
@@ -9,16 +10,17 @@ export const PostMutation = extendType({
       authorize(root, args, { db }) {
         return true;
       },
-      async resolve(source, { data }, { db }) {
+      async resolve(source, { data }, { db, upload }) {
         const { tag, thumbnail, ...rest } = data;
         const file = await thumbnail;
-        file?.createReadStream();
+        const formData = new FormData();
+        formData.append("file", file.createReadStream());
+        const url = await upload.image(formData);
 
         const post = await db.post.create({
           data: {
             ...rest,
-            thumbnail: "",
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            thumbnail: url,
             tag: { connect: (tag ?? []).map((t) => ({ id: t })) },
           },
         });
