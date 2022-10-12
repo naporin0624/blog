@@ -3,13 +3,13 @@ import { list, nonNull, objectType } from "nexus";
 export const PostType = objectType({
   name: "Post",
   definition(t) {
-    t.int("id");
-    t.string("title");
-    t.string("body");
-    t.url("thumbnail");
+    t.nonNull.int("id");
+    t.nonNull.string("title");
+    t.nonNull.string("body");
+    t.nonNull.url("thumbnail");
     t.date("publishedAt");
-    t.date("createdAt");
-    t.date("updatedAt");
+    t.nonNull.date("createdAt");
+    t.nonNull.date("updatedAt");
 
     t.field("tags", {
       type: list(nonNull("Tag")),

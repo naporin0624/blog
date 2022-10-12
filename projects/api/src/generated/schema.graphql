@@ -35,14 +35,14 @@ enum Order {
 }
 
 type Post {
-  body: String
-  createdAt: Date
-  id: Int
+  body: String!
+  createdAt: Date!
+  id: Int!
   publishedAt: Date
   tags: [Tag!]
-  thumbnail: URL
-  title: String
-  updatedAt: Date
+  thumbnail: URL!
+  title: String!
+  updatedAt: Date!
 }
 
 input PostOrderInput {

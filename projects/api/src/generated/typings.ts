@@ -118,13 +118,13 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   Mutation: {};
   Post: { // root type
-    body?: string | null; // String
-    createdAt?: NexusGenScalars['Date'] | null; // Date
-    id?: number | null; // Int
+    body: string; // String!
+    createdAt: NexusGenScalars['Date']; // Date!
+    id: number; // Int!
     publishedAt?: NexusGenScalars['Date'] | null; // Date
-    thumbnail?: NexusGenScalars['URL'] | null; // URL
-    title?: string | null; // String
-    updatedAt?: NexusGenScalars['Date'] | null; // Date
+    thumbnail: NexusGenScalars['URL']; // URL!
+    title: string; // String!
+    updatedAt: NexusGenScalars['Date']; // Date!
   }
   Query: {};
   Tag: { // root type
@@ -153,14 +153,14 @@ export interface NexusGenFieldTypes {
     updatePost: NexusGenRootTypes['Post']; // Post!
   }
   Post: { // field return type
-    body: string | null; // String
-    createdAt: NexusGenScalars['Date'] | null; // Date
-    id: number | null; // Int
+    body: string; // String!
+    createdAt: NexusGenScalars['Date']; // Date!
+    id: number; // Int!
     publishedAt: NexusGenScalars['Date'] | null; // Date
     tags: NexusGenRootTypes['Tag'][] | null; // [Tag!]
-    thumbnail: NexusGenScalars['URL'] | null; // URL
-    title: string | null; // String
-    updatedAt: NexusGenScalars['Date'] | null; // Date
+    thumbnail: NexusGenScalars['URL']; // URL!
+    title: string; // String!
+    updatedAt: NexusGenScalars['Date']; // Date!
   }
   Query: { // field return type
     posts: NexusGenRootTypes['Post'][] | null; // [Post!]

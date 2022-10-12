@@ -1,4 +1,4 @@
-import request, { gql } from "graphql-request";
+import { useMutation, useQuery } from "@apollo/client";
 import React, {
   memo,
   useCallback,
@@ -9,13 +9,7 @@ import React, {
   useSyncExternalStore,
 } from "react";
 
-const query = gql`
-  mutation Test($data: CreatePostInput!) {
-    createPost(data: $data) {
-      id
-    }
-  }
-`;
+import { CreatePostDocument, PostDocument } from "~/graphql";
 
 const emptyFiles = new DataTransfer().files;
 const App = () => {
@@ -31,31 +25,37 @@ const App = () => {
         ref.current?.removeEventListener("change", handler);
       };
     },
-    () => {
-      console.log("call get", ref.current?.files);
-
-      return ref.current?.files ?? emptyFiles;
-    }
+    () => ref.current?.files ?? emptyFiles
   );
   const file = useMemo(() => files.item(0), [files]);
+  const { data } = useQuery(PostDocument);
+  const [mutate, { loading }] = useMutation(CreatePostDocument, {
+    refetchQueries: [PostDocument],
+  });
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
+      if (!file) return;
       e.preventDefault();
 
-      await request("http://localhost:4000/graphql", query, {
-        data: {
-          title: "title",
-          body: "body",
-          thumbnail: file,
-        },
-      });
+      try {
+        await mutate({
+          variables: {
+            data: {
+              title: "title",
+              body: "body",
+              thumbnail: file,
+            },
+          },
+        });
+      } catch {
+        alert("error");
+      }
     },
     [file]
   );
   const [url, setURL] = useState<string>();
   useEffect(() => {
-    console.log(file);
     if (!file) return;
     const url = URL.createObjectURL(file);
     setURL(url);
@@ -75,8 +75,20 @@ const App = () => {
           <input type="file" ref={ref} required />
         </fieldset>
 
-        <button type="submit">submit</button>
+        <button type="submit" disabled={loading}>
+          submit
+        </button>
       </form>
+
+      <section>
+        {data?.posts?.map((post) => (
+          <article key={post.id}>
+            <h2>{post.title}</h2>
+            <p>{post.body}</p>
+            <img src={post.thumbnail} width={600} height={400} />
+          </article>
+        ))}
+      </section>
     </section>
   );
 };
