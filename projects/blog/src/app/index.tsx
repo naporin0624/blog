@@ -1,15 +1,20 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React, {
   memo,
+  Suspense,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
-  useState,
   useSyncExternalStore,
 } from "react";
 
-import { CreatePostDocument, PostDocument } from "~/graphql";
+import { Card } from "~/components/card";
+import {
+  CreatePostDocument,
+  DeletePostDocument,
+  PostDocument,
+} from "~/graphql";
+import { useObjectURL } from "~/shared/hooks/use-object-url";
 
 const emptyFiles = new DataTransfer().files;
 const App = () => {
@@ -27,7 +32,9 @@ const App = () => {
     },
     () => ref.current?.files ?? emptyFiles
   );
-  const file = useMemo(() => files.item(0), [files]);
+  const file = useMemo(() => files.item(0) ?? undefined, [files]);
+  const src = useObjectURL(file);
+
   const { data } = useQuery(PostDocument);
   const [mutate, { loading }] = useMutation(CreatePostDocument, {
     refetchQueries: [PostDocument],
@@ -54,24 +61,20 @@ const App = () => {
     },
     [file]
   );
-  const [url, setURL] = useState<string>();
-  useEffect(() => {
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    setURL(url);
 
-    return () => {
-      URL.revokeObjectURL(url);
-      setURL(undefined);
-    };
-  }, [file]);
+  const [deleteMutate, deleteOption] = useMutation(DeletePostDocument, {
+    refetchQueries: [PostDocument],
+  });
+  const deletePost = useCallback((id: number) => {
+    return deleteMutate({ variables: { where: { id } } });
+  }, []);
 
   return (
     <section>
       <h1>App</h1>
       <form onSubmit={handleSubmit}>
         <fieldset>
-          <img src={url} width={80} height={80} />
+          <img src={src} width={80} height={80} />
           <input type="file" ref={ref} required />
         </fieldset>
 
@@ -82,11 +85,26 @@ const App = () => {
 
       <section>
         {data?.posts?.map((post) => (
-          <article key={post.id}>
-            <h2>{post.title}</h2>
-            <p>{post.body}</p>
-            <img src={post.thumbnail} width={600} height={400} />
-          </article>
+          <Suspense key={post.id}>
+            <div>
+              <Card
+                title={post.title}
+                description={post.abstract}
+                src={[
+                  post.thumbnail.blur,
+                  post.thumbnail.small,
+                  post.thumbnail.medium,
+                  post.thumbnail.large,
+                ]}
+              />
+              <button
+                onClick={() => deletePost(post.id)}
+                disabled={deleteOption.loading}
+              >
+                dust
+              </button>
+            </div>
+          </Suspense>
         ))}
       </section>
     </section>

@@ -8,8 +8,17 @@ query Post {
   posts {
     id
     title
-    body
-    thumbnail
+    abstract
+
+    thumbnail {
+      blur
+      small
+      medium
+      large
+    }
   }
 }
   
+mutation DeletePost($where: PostUniqueWhereInput!) {
+  deletePost(where: $where)
+}

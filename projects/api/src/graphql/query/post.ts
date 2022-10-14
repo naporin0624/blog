@@ -1,6 +1,8 @@
 import { endOfDay, startOfDay } from "date-fns";
 import { arg, extendType, list, nonNull } from "nexus";
 
+import { NotFoundError } from "~/shared/error";
+
 export const PostQuery = extendType({
   type: "Query",
   definition(t) {
@@ -29,15 +31,15 @@ export const PostQuery = extendType({
                   },
                 }
               : {}),
-            ...(where?.tag
-              ? { tag: { every: { name: { contains: where.tag } } } }
-              : {}),
+            ...(where?.tag ? { tag: { every: { name: { contains: where.tag } } } } : {}),
             ...(where?.title ? { title: { contains: where.title } } : {}),
+            private: false,
           },
           orderBy: {
             publishedAt: order?.publishedAt ?? undefined,
             title: order?.title ?? undefined,
           },
+          include: { thumbnail: true },
         });
 
         return posts;
@@ -69,10 +71,9 @@ export const PostQuery = extendType({
                       },
                     }
                   : {}),
-                ...(where?.tag
-                  ? { tag: { every: { name: { contains: where.tag } } } }
-                  : {}),
+                ...(where?.tag ? { tag: { every: { name: { contains: where.tag } } } } : {}),
                 ...(where?.title ? { title: { contains: where.title } } : {}),
+                private: false,
               },
             ],
           },
@@ -80,9 +81,21 @@ export const PostQuery = extendType({
             publishedAt: order?.publishedAt ?? undefined,
             title: order?.title ?? undefined,
           },
+          include: { thumbnail: true },
         });
 
         return posts;
+      },
+    });
+
+    t.field("post", {
+      type: nonNull("Post"),
+      args: { where: arg({ type: "PostUniqueWhereInput" }) },
+      async resolve(source, { where }, { db }) {
+        const post = await db.post.findUnique({ where, include: { thumbnail: true } });
+        if (!post) throw new NotFoundError();
+
+        return post;
       },
     });
   },

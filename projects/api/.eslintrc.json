@@ -1,3 +1,8 @@
 {
-  "extends": ["@naporin0624/eslint-config"]
+  "extends": ["@naporin0624/eslint-config"],
+  "settings": {
+  "import/resolver": {
+     "typescript": { "project": "./" }
+    }
+  }
 }

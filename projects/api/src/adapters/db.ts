@@ -12,8 +12,16 @@ export const db = new PrismaClient({
 
 if (process.env.NODE_ENV === "development") {
   db.$on("query", (e) => {
-    // Query: e.query,
-    // Params: e.params,
-    // Duration: `${e.duration}ms`,
+    console.log(
+      JSON.stringify(
+        {
+          Query: e.query,
+          Params: e.params,
+          Duration: `${e.duration}ms`,
+        },
+        null,
+        2
+      )
+    );
   });
 }

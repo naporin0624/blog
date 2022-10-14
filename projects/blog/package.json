@@ -33,8 +33,10 @@
     "apollo-upload-client": "^17.0.0",
     "graphql": "^16.6.0",
     "graphql-request": "^5.0.0",
+    "interweave": "^13.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-flowder": "^1.0.1",
     "reset-css": "^5.0.1"
   }
 }

@@ -1,17 +1,26 @@
 import axios from "axios";
 
-import { directUpload } from "./cloudflare/images";
+import { cloudflareImages } from "./cloudflare/images";
 
 import type FormData from "form-data";
 
-export const uploadImage = async (formData: FormData): Promise<string> => {
-  const uploadURL = await directUpload();
-  const response = await axios.post(uploadURL, formData);
+type Response = {
+  result: UploadResult;
+  success: boolean;
+  errors: string[];
+  messages: string[];
+};
 
-  const variants: string[] = response.data.result.variants;
+export type UploadResult = {
+  id: string;
+  variants: string[];
+};
 
-  const thumbnail = variants.find((url) => url.endsWith("thumbnail"));
-  if (!thumbnail) throw new Error();
+export const uploadImage = async (formData: FormData): Promise<Response["result"]> => {
+  const {
+    result: { uploadURL },
+  } = await cloudflareImages.v2.direct_upload.$post();
+  const { data } = await axios.post<Response>(uploadURL, formData);
 
-  return thumbnail;
+  return data.result;
 };

@@ -3,12 +3,12 @@ import { list, nonNull, objectType } from "nexus";
 export const TagType = objectType({
   name: "Tag",
   definition(t) {
-    t.int("id");
-    t.string("name");
-    t.color("color");
+    t.nonNull.int("id");
+    t.nonNull.string("name");
+    t.nonNull.color("color");
 
     t.field("posts", {
-      type: list(nonNull("Post")),
+      type: nonNull(list(nonNull("Post"))),
       async resolve(source, args, { db }) {
         if (!source.id) return [];
 

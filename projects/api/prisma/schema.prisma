@@ -3,7 +3,7 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  previewFeatures = ["referentialIntegrity", "interactiveTransactions"]
 }
 
 datasource db {
@@ -14,23 +14,34 @@ datasource db {
 
 model Post {
   id        Int    @id @default(autoincrement())
-  thumbnail String
+  thumbnail Image  @relation(fields: [imageId], references: [id]) 
   title     String
   body      String
   tag       Tag[]
+  private Boolean
 
   publishedAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now()) @updatedAt
+  imageId     Int
 }
 
 model Tag {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
   color     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
 
   Post   Post? @relation(fields: [postId], references: [id])
   postId Int?
+}
+
+model Image {
+  id        Int       @id @default(autoincrement())
+  imageId   String
+  provider  String
+  Post      Post[]
+  deletedAt DateTime?
 }

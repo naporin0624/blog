@@ -19,6 +19,7 @@ export type Scalars = {
 
 export type CreatePostInput = {
   body: Scalars['String'];
+  private?: InputMaybe<Scalars['Boolean']>;
   publishedAt?: InputMaybe<Scalars['Date']>;
   tag?: InputMaybe<Array<Scalars['Int']>>;
   thumbnail: Scalars['Upload'];
@@ -30,13 +31,30 @@ export type CreateTagInput = {
   name: Scalars['String'];
 };
 
+export type Image = {
+  __typename?: 'Image';
+  blur: Scalars['String'];
+  id: Scalars['Int'];
+  imageId: Scalars['String'];
+  large: Scalars['String'];
+  medium: Scalars['String'];
+  small: Scalars['String'];
+};
+
+/** Name of the service to which the image will be delivered */
+export enum ImageProvider {
+  Cloudflare = 'cloudflare'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   createPost: Post;
   createTag: Tag;
   deletePost: Scalars['Boolean'];
+  deleteTag?: Maybe<Scalars['Boolean']>;
   publishPost: Scalars['Boolean'];
   updatePost: Post;
+  updateTag: Tag;
 };
 
 
@@ -51,17 +69,29 @@ export type MutationCreateTagArgs = {
 
 
 export type MutationDeletePostArgs = {
-  data: PostUniqueWhereInput;
+  where: PostUniqueWhereInput;
+};
+
+
+export type MutationDeleteTagArgs = {
+  where: TagUniqueWhereInput;
 };
 
 
 export type MutationPublishPostArgs = {
-  data: PostUniqueWhereInput;
+  where: PostUniqueWhereInput;
 };
 
 
 export type MutationUpdatePostArgs = {
   data: UpdatePostInput;
+  where: PostUniqueWhereInput;
+};
+
+
+export type MutationUpdateTagArgs = {
+  data: UpdateTagInput;
+  where: TagUniqueWhereInput;
 };
 
 export enum Order {
@@ -71,12 +101,14 @@ export enum Order {
 
 export type Post = {
   __typename?: 'Post';
+  abstract: Scalars['String'];
   body: Scalars['String'];
   createdAt: Scalars['Date'];
   id: Scalars['Int'];
+  private: Scalars['Boolean'];
   publishedAt?: Maybe<Scalars['Date']>;
   tags?: Maybe<Array<Tag>>;
-  thumbnail: Scalars['URL'];
+  thumbnail: Image;
   title: Scalars['String'];
   updatedAt: Scalars['Date'];
 };
@@ -98,9 +130,15 @@ export type PostWhereInput = {
 
 export type Query = {
   __typename?: 'Query';
+  post: Post;
   posts?: Maybe<Array<Post>>;
   publishedPosts?: Maybe<Array<Post>>;
   tags?: Maybe<Array<Tag>>;
+};
+
+
+export type QueryPostArgs = {
+  where?: InputMaybe<PostUniqueWhereInput>;
 };
 
 
@@ -122,10 +160,10 @@ export type QueryTagsArgs = {
 
 export type Tag = {
   __typename?: 'Tag';
-  color?: Maybe<Scalars['Color']>;
-  id?: Maybe<Scalars['Int']>;
-  name?: Maybe<Scalars['String']>;
-  posts?: Maybe<Array<Post>>;
+  color: Scalars['Color'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  posts: Array<Post>;
 };
 
 export type TagUniqueWhereInput = {
@@ -139,11 +177,16 @@ export type TagWhereInput = {
 
 export type UpdatePostInput = {
   body?: InputMaybe<Scalars['String']>;
-  id: Scalars['Int'];
+  private?: InputMaybe<Scalars['Boolean']>;
   publishedAt?: InputMaybe<Scalars['Date']>;
   tag?: InputMaybe<Array<Scalars['Int']>>;
-  thumbnail?: InputMaybe<Scalars['URL']>;
+  thumbnail?: InputMaybe<Scalars['Upload']>;
   title?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateTagInput = {
+  color?: InputMaybe<Scalars['Color']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type CreatePostMutationVariables = Exact<{
@@ -156,8 +199,16 @@ export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __type
 export type PostQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostQuery = { __typename?: 'Query', posts?: Array<{ __typename?: 'Post', id: number, title: string, body: string, thumbnail: string }> | null };
+export type PostQuery = { __typename?: 'Query', posts?: Array<{ __typename?: 'Post', id: number, title: string, abstract: string, thumbnail: { __typename?: 'Image', blur: string, small: string, medium: string, large: string } }> | null };
+
+export type DeletePostMutationVariables = Exact<{
+  where: PostUniqueWhereInput;
+}>;
+
+
+export type DeletePostMutation = { __typename?: 'Mutation', deletePost: boolean };
 
 
 export const CreatePostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreatePost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreatePostInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createPost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreatePostMutation, CreatePostMutationVariables>;
-export const PostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Post"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"}}]}}]}}]} as unknown as DocumentNode<PostQuery, PostQueryVariables>;
+export const PostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Post"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"abstract"}},{"kind":"Field","name":{"kind":"Name","value":"thumbnail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"blur"}},{"kind":"Field","name":{"kind":"Name","value":"small"}},{"kind":"Field","name":{"kind":"Name","value":"medium"}},{"kind":"Field","name":{"kind":"Name","value":"large"}}]}}]}}]}}]} as unknown as DocumentNode<PostQuery, PostQueryVariables>;
+export const DeletePostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeletePost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"where"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"PostUniqueWhereInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deletePost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"Variable","name":{"kind":"Name","value":"where"}}}]}]}}]} as unknown as DocumentNode<DeletePostMutation, DeletePostMutationVariables>;

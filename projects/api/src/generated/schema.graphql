@@ -6,6 +6,7 @@ scalar Color
 
 input CreatePostInput {
   body: String!
+  private: Boolean
   publishedAt: Date
   tag: [Int!]
   thumbnail: Upload!
@@ -20,12 +21,28 @@ input CreateTagInput {
 """Date custom scalar type"""
 scalar Date
 
+type Image {
+  blur: String!
+  id: Int!
+  imageId: String!
+  large: String!
+  medium: String!
+  small: String!
+}
+
+"""Name of the service to which the image will be delivered"""
+enum ImageProvider {
+  cloudflare
+}
+
 type Mutation {
   createPost(data: CreatePostInput!): Post!
   createTag(data: CreateTagInput!): Tag!
-  deletePost(data: PostUniqueWhereInput!): Boolean!
-  publishPost(data: PostUniqueWhereInput!): Boolean!
-  updatePost(data: UpdatePostInput!): Post!
+  deletePost(where: PostUniqueWhereInput!): Boolean!
+  deleteTag(where: TagUniqueWhereInput!): Boolean
+  publishPost(where: PostUniqueWhereInput!): Boolean!
+  updatePost(data: UpdatePostInput!, where: PostUniqueWhereInput!): Post!
+  updateTag(data: UpdateTagInput!, where: TagUniqueWhereInput!): Tag!
 }
 
 """"""
@@ -35,12 +52,14 @@ enum Order {
 }
 
 type Post {
+  abstract: String!
   body: String!
   createdAt: Date!
   id: Int!
+  private: Boolean!
   publishedAt: Date
   tags: [Tag!]
-  thumbnail: URL!
+  thumbnail: Image!
   title: String!
   updatedAt: Date!
 }
@@ -61,16 +80,17 @@ input PostWhereInput {
 }
 
 type Query {
+  post(where: PostUniqueWhereInput): Post!
   posts(order: PostOrderInput = {publishedAt: desc}, where: PostWhereInput): [Post!]
   publishedPosts(order: PostOrderInput = {publishedAt: desc}, where: PostWhereInput): [Post!]
   tags(where: TagWhereInput): [Tag!]
 }
 
 type Tag {
-  color: Color
-  id: Int
-  name: String
-  posts: [Post!]
+  color: Color!
+  id: Int!
+  name: String!
+  posts: [Post!]!
 }
 
 input TagUniqueWhereInput {
@@ -87,11 +107,16 @@ scalar URL
 
 input UpdatePostInput {
   body: String
-  id: Int!
+  private: Boolean
   publishedAt: Date
   tag: [Int!] = []
-  thumbnail: URL
+  thumbnail: Upload
   title: String
+}
+
+input UpdateTagInput {
+  color: Color
+  name: String
 }
 
 """The `Upload` scalar type represents a file upload."""

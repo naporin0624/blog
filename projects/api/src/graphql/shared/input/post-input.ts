@@ -6,6 +6,7 @@ export const CreatePostInput = inputObjectType({
     t.nonNull.string("title");
     t.nonNull.string("body");
     t.nonNull.upload("thumbnail");
+    t.boolean("private");
     t.date("publishedAt");
     t.list.nonNull.int("tag");
   },
@@ -14,10 +15,10 @@ export const CreatePostInput = inputObjectType({
 export const UpdatePostInput = inputObjectType({
   name: "UpdatePostInput",
   definition(t) {
-    t.nonNull.int("id");
     t.string("title");
     t.string("body");
-    t.url("thumbnail");
+    t.boolean("private");
+    t.upload("thumbnail");
     t.list.nonNull.int("tag", { default: [] });
     t.date("publishedAt");
   },

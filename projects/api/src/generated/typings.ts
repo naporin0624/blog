@@ -61,6 +61,7 @@ declare global {
 export interface NexusGenInputs {
   CreatePostInput: { // input type
     body: string; // String!
+    private?: boolean | null; // Boolean
     publishedAt?: NexusGenScalars['Date'] | null; // Date
     tag?: number[] | null; // [Int!]
     thumbnail: NexusGenScalars['Upload']; // Upload!
@@ -91,15 +92,20 @@ export interface NexusGenInputs {
   }
   UpdatePostInput: { // input type
     body?: string | null; // String
-    id: number; // Int!
+    private?: boolean | null; // Boolean
     publishedAt?: NexusGenScalars['Date'] | null; // Date
     tag: number[] | null; // [Int!]
-    thumbnail?: NexusGenScalars['URL'] | null; // URL
+    thumbnail?: NexusGenScalars['Upload'] | null; // Upload
     title?: string | null; // String
+  }
+  UpdateTagInput: { // input type
+    color?: NexusGenScalars['Color'] | null; // Color
+    name?: string | null; // String
   }
 }
 
 export interface NexusGenEnums {
+  ImageProvider: "cloudflare"
   Order: "asc" | "desc"
 }
 
@@ -116,21 +122,26 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Image: { // root type
+    id: number; // Int!
+    imageId: string; // String!
+  }
   Mutation: {};
   Post: { // root type
     body: string; // String!
     createdAt: NexusGenScalars['Date']; // Date!
     id: number; // Int!
+    private: boolean; // Boolean!
     publishedAt?: NexusGenScalars['Date'] | null; // Date
-    thumbnail: NexusGenScalars['URL']; // URL!
+    thumbnail: NexusGenRootTypes['Image']; // Image!
     title: string; // String!
     updatedAt: NexusGenScalars['Date']; // Date!
   }
   Query: {};
   Tag: { // root type
-    color?: NexusGenScalars['Color'] | null; // Color
-    id?: number | null; // Int
-    name?: string | null; // String
+    color: NexusGenScalars['Color']; // Color!
+    id: number; // Int!
+    name: string; // String!
   }
 }
 
@@ -145,55 +156,81 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Image: { // field return type
+    blur: string; // String!
+    id: number; // Int!
+    imageId: string; // String!
+    large: string; // String!
+    medium: string; // String!
+    small: string; // String!
+  }
   Mutation: { // field return type
     createPost: NexusGenRootTypes['Post']; // Post!
     createTag: NexusGenRootTypes['Tag']; // Tag!
     deletePost: boolean; // Boolean!
+    deleteTag: boolean | null; // Boolean
     publishPost: boolean; // Boolean!
     updatePost: NexusGenRootTypes['Post']; // Post!
+    updateTag: NexusGenRootTypes['Tag']; // Tag!
   }
   Post: { // field return type
+    abstract: string; // String!
     body: string; // String!
     createdAt: NexusGenScalars['Date']; // Date!
     id: number; // Int!
+    private: boolean; // Boolean!
     publishedAt: NexusGenScalars['Date'] | null; // Date
     tags: NexusGenRootTypes['Tag'][] | null; // [Tag!]
-    thumbnail: NexusGenScalars['URL']; // URL!
+    thumbnail: NexusGenRootTypes['Image']; // Image!
     title: string; // String!
     updatedAt: NexusGenScalars['Date']; // Date!
   }
   Query: { // field return type
+    post: NexusGenRootTypes['Post']; // Post!
     posts: NexusGenRootTypes['Post'][] | null; // [Post!]
     publishedPosts: NexusGenRootTypes['Post'][] | null; // [Post!]
     tags: NexusGenRootTypes['Tag'][] | null; // [Tag!]
   }
   Tag: { // field return type
-    color: NexusGenScalars['Color'] | null; // Color
-    id: number | null; // Int
-    name: string | null; // String
-    posts: NexusGenRootTypes['Post'][] | null; // [Post!]
+    color: NexusGenScalars['Color']; // Color!
+    id: number; // Int!
+    name: string; // String!
+    posts: NexusGenRootTypes['Post'][]; // [Post!]!
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Image: { // field return type name
+    blur: 'String'
+    id: 'Int'
+    imageId: 'String'
+    large: 'String'
+    medium: 'String'
+    small: 'String'
+  }
   Mutation: { // field return type name
     createPost: 'Post'
     createTag: 'Tag'
     deletePost: 'Boolean'
+    deleteTag: 'Boolean'
     publishPost: 'Boolean'
     updatePost: 'Post'
+    updateTag: 'Tag'
   }
   Post: { // field return type name
+    abstract: 'String'
     body: 'String'
     createdAt: 'Date'
     id: 'Int'
+    private: 'Boolean'
     publishedAt: 'Date'
     tags: 'Tag'
-    thumbnail: 'URL'
+    thumbnail: 'Image'
     title: 'String'
     updatedAt: 'Date'
   }
   Query: { // field return type name
+    post: 'Post'
     posts: 'Post'
     publishedPosts: 'Post'
     tags: 'Tag'
@@ -215,16 +252,27 @@ export interface NexusGenArgTypes {
       data: NexusGenInputs['CreateTagInput']; // CreateTagInput!
     }
     deletePost: { // args
-      data: NexusGenInputs['PostUniqueWhereInput']; // PostUniqueWhereInput!
+      where: NexusGenInputs['PostUniqueWhereInput']; // PostUniqueWhereInput!
+    }
+    deleteTag: { // args
+      where: NexusGenInputs['TagUniqueWhereInput']; // TagUniqueWhereInput!
     }
     publishPost: { // args
-      data: NexusGenInputs['PostUniqueWhereInput']; // PostUniqueWhereInput!
+      where: NexusGenInputs['PostUniqueWhereInput']; // PostUniqueWhereInput!
     }
     updatePost: { // args
       data: NexusGenInputs['UpdatePostInput']; // UpdatePostInput!
+      where: NexusGenInputs['PostUniqueWhereInput']; // PostUniqueWhereInput!
+    }
+    updateTag: { // args
+      data: NexusGenInputs['UpdateTagInput']; // UpdateTagInput!
+      where: NexusGenInputs['TagUniqueWhereInput']; // TagUniqueWhereInput!
     }
   }
   Query: {
+    post: { // args
+      where?: NexusGenInputs['PostUniqueWhereInput'] | null; // PostUniqueWhereInput
+    }
     posts: { // args
       order: NexusGenInputs['PostOrderInput'] | null; // PostOrderInput
       where?: NexusGenInputs['PostWhereInput'] | null; // PostWhereInput
