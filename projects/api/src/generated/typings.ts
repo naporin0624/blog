@@ -105,7 +105,6 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
-  ImageProvider: "cloudflare"
   Order: "asc" | "desc"
 }
 

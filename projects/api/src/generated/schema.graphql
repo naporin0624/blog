@@ -30,11 +30,6 @@ type Image {
   small: String!
 }
 
-"""Name of the service to which the image will be delivered"""
-enum ImageProvider {
-  cloudflare
-}
-
 type Mutation {
   createPost(data: CreatePostInput!): Post!
   createTag(data: CreateTagInput!): Tag!

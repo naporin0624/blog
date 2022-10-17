@@ -7,26 +7,26 @@ export const ImageType = objectType({
     t.nonNull.string("imageId");
     t.nonNull.field("blur", {
       type: "String",
-      resolve(source) {
-        return `${process.env.CLOUDFLARE_IMAGE_DELIVERY_URL}/${source.imageId}/blogThumbBlur`;
+      resolve(source, args, { cloudflare }) {
+        return cloudflare.deliveryURL(source.imageId, "blogThumbBlur");
       },
     });
     t.nonNull.field("small", {
       type: "String",
-      resolve(source) {
-        return `${process.env.CLOUDFLARE_IMAGE_DELIVERY_URL}/${source.imageId}/blogThumbSmall`;
+      resolve(source, args, { cloudflare }) {
+        return cloudflare.deliveryURL(source.imageId, "blogThumbSmall");
       },
     });
     t.nonNull.field("medium", {
       type: "String",
-      resolve(source) {
-        return `${process.env.CLOUDFLARE_IMAGE_DELIVERY_URL}/${source.imageId}/blogThumbMedium`;
+      resolve(source, args, { cloudflare }) {
+        return cloudflare.deliveryURL(source.imageId, "blogThumbMedium");
       },
     });
     t.nonNull.field("large", {
       type: "String",
-      resolve(source) {
-        return `${process.env.CLOUDFLARE_IMAGE_DELIVERY_URL}/${source.imageId}/blogThumbLarge`;
+      resolve(source, args, { cloudflare }) {
+        return cloudflare.deliveryURL(source.imageId, "blogThumbLarge");
       },
     });
   },

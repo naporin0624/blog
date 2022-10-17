@@ -20,7 +20,14 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["src/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "ts-graphql-plugin",
+        "schema": "../api/src/generated/schema.graphql",
+        "tag": "gql"
+      }
+    ]
   },
   "include": ["src", "types"],
   "references": [{ "path": "./tsconfig.node.json" }]

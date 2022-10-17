@@ -1,12 +1,11 @@
 import { db } from "~/adapters/db";
 
-import { cloudflareImages } from "./adapters/cloudflare/images";
-import { uploadImage } from "./adapters/upload-image";
+import { cloudflare } from "./adapters/cloudflare";
 
+// usecases 単位で DI した方がいいな〜
 export const context = {
-  db: db,
-  uploadImage,
-  cloudflareImages,
+  db,
+  cloudflare,
 };
 
 export type Context = typeof context;

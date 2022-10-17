@@ -21,9 +21,7 @@ export const StatusCodePlugin: PluginDefinition = {
           return;
         }
 
-        const statusCodes = context.errors
-          .map((err) => err.originalError ?? err)
-          .map(errorToStatusCode);
+        const statusCodes = context.errors.map((err) => err.originalError ?? err).map(errorToStatusCode);
 
         context.response.http.status = Math.max(...statusCodes);
       },

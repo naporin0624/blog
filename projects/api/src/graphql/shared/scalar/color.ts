@@ -14,12 +14,7 @@ export const ColorScalar = scalarType({
     if (typeof value !== "string") throw new InvalidError();
     const parsed = rgba(value);
     const [r, g, b, a] = parsed ?? [];
-    if (
-      r == undefined ||
-      g === undefined ||
-      b === undefined ||
-      a === undefined
-    ) {
+    if (r == undefined || g === undefined || b === undefined || a === undefined) {
       throw new InvalidError();
     }
 

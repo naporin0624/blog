@@ -1,11 +1,6 @@
 import { join } from "path";
 
-import {
-  makeSchema,
-  connectionPlugin,
-  fieldAuthorizePlugin,
-  queryComplexityPlugin,
-} from "nexus";
+import { makeSchema, connectionPlugin, fieldAuthorizePlugin, queryComplexityPlugin } from "nexus";
 
 import * as Mutation from "./mutation";
 import * as Query from "./query";

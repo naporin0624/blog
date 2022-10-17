@@ -20,9 +20,7 @@ async function bootstrap() {
   });
 
   const httpServer = http.createServer(app);
-  httpServer.listen({ host, port }, () =>
-    console.log(`🚀 Server ready at: http://${host}:${port}`)
-  );
+  httpServer.listen({ host, port }, () => console.log(`🚀 Server ready at: http://${host}:${port}`));
 }
 
 void bootstrap();

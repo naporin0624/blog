@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { cloudflareImages } from "./cloudflare/images";
+import { cloudflare } from ".";
 
 import type FormData from "form-data";
 
@@ -16,10 +16,13 @@ export type UploadResult = {
   variants: string[];
 };
 
+/**
+ * @package
+ */
 export const uploadImage = async (formData: FormData): Promise<Response["result"]> => {
   const {
     result: { uploadURL },
-  } = await cloudflareImages.v2.direct_upload.$post();
+  } = await cloudflare.images.v2.direct_upload.$post();
   const { data } = await axios.post<Response>(uploadURL, formData);
 
   return data.result;

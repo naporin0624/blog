@@ -1,7 +1,7 @@
 import FormData from "form-data";
 import { extendType, arg, nonNull } from "nexus";
 
-import type { UploadResult } from "~/adapters/upload-image";
+import type { UploadResult } from "~/adapters/cloudflare/upload-image";
 
 export const PostMutation = extendType({
   type: "Mutation",
@@ -12,12 +12,12 @@ export const PostMutation = extendType({
       authorize(root, args, { db }) {
         return true;
       },
-      async resolve(source, { data }, { db, uploadImage }) {
+      async resolve(source, { data }, { db, cloudflare }) {
         const { tag, thumbnail, ...rest } = data;
         const file = await thumbnail;
         const formData = new FormData();
         formData.append("file", file.createReadStream());
-        const result = await uploadImage(formData);
+        const result = await cloudflare.uploadImage(formData);
 
         const post = await db.post.create({
           data: {
@@ -47,7 +47,7 @@ export const PostMutation = extendType({
       authorize(root, args, { db }) {
         return true;
       },
-      async resolve(source, { data, where }, { db, uploadImage }) {
+      async resolve(source, { data, where }, { db, cloudflare }) {
         const { id } = where;
         const { thumbnail, ...rest } = data;
         let uploadResult: UploadResult | undefined = undefined;
@@ -55,7 +55,7 @@ export const PostMutation = extendType({
           const file = await thumbnail;
           const formData = new FormData();
           formData.append("file", file.createReadStream());
-          uploadResult = await uploadImage(formData);
+          uploadResult = await cloudflare.uploadImage(formData);
         }
 
         const post = await db.post.update({
@@ -81,10 +81,10 @@ export const PostMutation = extendType({
       authorize(root, args, { db }) {
         return true;
       },
-      async resolve(source, { where }, { db, cloudflareImages }) {
+      async resolve(source, { where }, { db, cloudflare }) {
         await db.$transaction(async (db) => {
           const post = await db.post.delete({ where, include: { thumbnail: true } });
-          await cloudflareImages.v1._imageId(post.thumbnail.imageId).$delete();
+          await cloudflare.images.v1._imageId(post.thumbnail.imageId).$delete();
           await db.image.delete({ where: { id: post.imageId } });
         });
 
