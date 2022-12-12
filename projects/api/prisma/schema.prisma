@@ -3,22 +3,21 @@
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity", "interactiveTransactions"]
+  previewFeatures = ["extendedWhereUnique", "clientExtensions"]
 }
 
 datasource db {
   provider             = "mysql"
   url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
 }
 
 model Post {
-  id        Int    @id @default(autoincrement())
-  thumbnail Image  @relation(fields: [imageId], references: [id]) 
+  id        Int     @id @default(autoincrement())
+  thumbnail Image   @relation(fields: [imageId], references: [id])
   title     String
   body      String
   tag       Tag[]
-  private Boolean
+  private   Boolean
 
   publishedAt DateTime?
   createdAt   DateTime  @default(now())

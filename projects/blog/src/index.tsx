@@ -15,7 +15,10 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-createRoot(document.getElementById("app")!).render(
+const entrypoint = document.getElementById("app");
+if (!entrypoint) throw new Error("");
+
+createRoot(entrypoint).render(
   <Provider>
     <ApolloProvider client={client}>
       <Suspense>

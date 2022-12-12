@@ -17,7 +17,7 @@ export const PostQuery = extendType({
           default: { publishedAt: "desc" },
         }),
       },
-      authorize(root, args, { db }) {
+      authorize() {
         return true;
       },
       async resolve(source, { where, order }, { db }) {
@@ -90,7 +90,7 @@ export const PostQuery = extendType({
 
     t.field("post", {
       type: nonNull("Post"),
-      args: { where: arg({ type: "PostUniqueWhereInput" }) },
+      args: { where: nonNull(arg({ type: "PostUniqueWhereInput" })) },
       async resolve(source, { where }, { db }) {
         const post = await db.post.findUnique({ where, include: { thumbnail: true } });
         if (!post) throw new NotFoundError();

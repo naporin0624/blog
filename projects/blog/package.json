@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
-    "lint": "eslint src",
+    "lint": "eslint --cache src",
+    "fmt:eslint": "eslint --cache --fix src",
+    "fmt:prettier": "prettier --write src",
     "dev": "vite dev",
     "build": "vite build",
     "codegen": "graphql-codegen --config codegen.yml"
@@ -17,7 +19,7 @@
     "@graphql-codegen/typed-document-node": "^2.3.4",
     "@graphql-codegen/typescript": "^2.7.4",
     "@graphql-codegen/typescript-operations": "^2.5.4",
-    "@naporin0624/eslint-config": "^0.4.0",
+    "@naporin0624/eslint-config": "^0.5.1",
     "@types/apollo-upload-client": "^17.0.1",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",

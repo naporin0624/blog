@@ -14,6 +14,6 @@
 		}
 	],
 	"settings": {
-		"typescript.tsdk": "api/node_modules/typescript/lib"
+		"typescript.tsdk": "napochaan-app/node_modules/typescript/lib"
 	}
 }

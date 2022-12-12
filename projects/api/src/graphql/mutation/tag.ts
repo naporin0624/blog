@@ -6,7 +6,7 @@ export const TagMutation = extendType({
     t.field("createTag", {
       type: nonNull("Tag"),
       args: { data: nonNull(arg({ type: "CreateTagInput" })) },
-      authorize(root, args, { db }) {
+      authorize() {
         return true;
       },
       async resolve(source, { data }, { db }) {
@@ -20,7 +20,7 @@ export const TagMutation = extendType({
         where: nonNull(arg({ type: "TagUniqueWhereInput" })),
         data: nonNull(arg({ type: "UpdateTagInput" })),
       },
-      authorize(root, args, { db }) {
+      authorize() {
         return true;
       },
       async resolve(source, { where, data }, { db }) {
@@ -37,7 +37,7 @@ export const TagMutation = extendType({
     t.field("deleteTag", {
       type: "Boolean",
       args: { where: nonNull(arg({ type: "TagUniqueWhereInput" })) },
-      authorize(root, args, { db }) {
+      authorize() {
         return true;
       },
       async resolve(source, { where }, { db }) {

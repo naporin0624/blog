@@ -9,7 +9,7 @@ export const PostMutation = extendType({
     t.field("createPost", {
       type: nonNull("Post"),
       args: { data: nonNull(arg({ type: "CreatePostInput" })) },
-      authorize(root, args, { db }) {
+      authorize() {
         return true;
       },
       async resolve(source, { data }, { db, cloudflare }) {
@@ -44,7 +44,7 @@ export const PostMutation = extendType({
         where: nonNull(arg({ type: "PostUniqueWhereInput" })),
         data: nonNull(arg({ type: "UpdatePostInput" })),
       },
-      authorize(root, args, { db }) {
+      authorize() {
         return true;
       },
       async resolve(source, { data, where }, { db, cloudflare }) {
@@ -78,7 +78,7 @@ export const PostMutation = extendType({
     t.field("deletePost", {
       type: nonNull("Boolean"),
       args: { where: nonNull(arg({ type: "PostUniqueWhereInput" })) },
-      authorize(root, args, { db }) {
+      authorize() {
         return true;
       },
       async resolve(source, { where }, { db, cloudflare }) {
@@ -95,7 +95,7 @@ export const PostMutation = extendType({
     t.field("publishPost", {
       type: nonNull("Boolean"),
       args: { where: nonNull(arg({ type: "PostUniqueWhereInput" })) },
-      authorize(root, args, { db }) {
+      authorize() {
         return true;
       },
       async resolve(_source, { where }, { db }) {

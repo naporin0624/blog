@@ -14,6 +14,7 @@ export const TagType = objectType({
 
         return db.post.findMany({
           where: { tag: { every: { id: { equals: source.id } } } },
+          include: { thumbnail: true },
         });
       },
     });
