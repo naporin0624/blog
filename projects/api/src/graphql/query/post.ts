@@ -1,4 +1,5 @@
-import { endOfDay, startOfDay } from "date-fns";
+import { UserInputError } from "apollo-server-express";
+import { endOfDay, isAfter, startOfDay } from "date-fns";
 import { arg, extendType, list, nonNull } from "nexus";
 
 import { NotFoundError } from "~/shared/error";
@@ -7,7 +8,7 @@ export const PostQuery = extendType({
   type: "Query",
   definition(t) {
     t.field("posts", {
-      type: list(nonNull("Post")),
+      type: nonNull(list(nonNull("Post"))),
       args: {
         where: arg({
           type: "PostWhereInput",
@@ -47,7 +48,7 @@ export const PostQuery = extendType({
     });
 
     t.field("publishedPosts", {
-      type: list(nonNull("Post")),
+      type: nonNull(list(nonNull("Post"))),
       args: {
         where: arg({
           type: "PostWhereInput",
@@ -58,10 +59,15 @@ export const PostQuery = extendType({
         }),
       },
       async resolve(source, { where, order }, { db }) {
+        const currentDate = new Date();
+        if (where?.publishedAt && isAfter(where.publishedAt, currentDate)) {
+          throw new UserInputError(`publishdedAt is too large. Please enter a date smaller than ${currentDate}.`);
+        }
+
         const posts = await db.post.findMany({
           where: {
             AND: [
-              { publishedAt: { lte: new Date() } },
+              { publishedAt: { lte: currentDate } },
               {
                 ...(where?.publishedAt
                   ? {

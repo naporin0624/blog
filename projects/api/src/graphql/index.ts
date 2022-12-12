@@ -13,7 +13,7 @@ export const apolloServer = new ApolloServer({
   cache: "bounded",
   context,
   formatError(error) {
-    if(process.env.NODE_ENV === "development") return error;
+    if (process.env.NODE_ENV === "development") return error;
 
     if (error.extensions.exception) {
       error.extensions.exception.stacktrace = undefined;

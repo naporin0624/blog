@@ -4,7 +4,7 @@ export const TagsQuery = extendType({
   type: "Query",
   definition(t) {
     t.field("tags", {
-      type: list(nonNull("Tag")),
+      type: nonNull(list(nonNull("Tag"))),
       args: { where: arg({ type: "TagWhereInput" }) },
       async resolve(source, { where }, { db }) {
         try {

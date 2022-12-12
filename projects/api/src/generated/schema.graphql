@@ -34,7 +34,7 @@ type Mutation {
   createPost(data: CreatePostInput!): Post!
   createTag(data: CreateTagInput!): Tag!
   deletePost(where: PostUniqueWhereInput!): Boolean!
-  deleteTag(where: TagUniqueWhereInput!): Boolean
+  deleteTag(where: TagUniqueWhereInput!): Boolean!
   publishPost(where: PostUniqueWhereInput!): Boolean!
   updatePost(data: UpdatePostInput!, where: PostUniqueWhereInput!): Post!
   updateTag(data: UpdateTagInput!, where: TagUniqueWhereInput!): Tag!
@@ -53,7 +53,7 @@ type Post {
   id: Int!
   private: Boolean!
   publishedAt: Date
-  tags: [Tag!]
+  tags: [Tag!]!
   thumbnail: Image!
   title: String!
   updatedAt: Date!
@@ -76,9 +76,9 @@ input PostWhereInput {
 
 type Query {
   post(where: PostUniqueWhereInput!): Post!
-  posts(order: PostOrderInput = {publishedAt: desc}, where: PostWhereInput): [Post!]
-  publishedPosts(order: PostOrderInput = {publishedAt: desc}, where: PostWhereInput): [Post!]
-  tags(where: TagWhereInput): [Tag!]
+  posts(order: PostOrderInput = {publishedAt: desc}, where: PostWhereInput): [Post!]!
+  publishedPosts(order: PostOrderInput = {publishedAt: desc}, where: PostWhereInput): [Post!]!
+  tags(where: TagWhereInput): [Tag!]!
 }
 
 type Tag {

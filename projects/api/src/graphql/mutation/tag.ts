@@ -35,7 +35,7 @@ export const TagMutation = extendType({
     });
 
     t.field("deleteTag", {
-      type: "Boolean",
+      type: nonNull("Boolean"),
       args: { where: nonNull(arg({ type: "TagUniqueWhereInput" })) },
       authorize() {
         return true;

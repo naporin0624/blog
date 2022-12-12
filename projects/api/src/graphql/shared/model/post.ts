@@ -23,7 +23,7 @@ export const PostType = objectType({
     });
 
     t.field("tags", {
-      type: list(nonNull("Tag")),
+      type: nonNull(list(nonNull("Tag"))),
       async resolve(source, arg, { db }) {
         if (!source.id) return [];
 

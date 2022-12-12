@@ -168,7 +168,7 @@ export interface NexusGenFieldTypes {
     createPost: NexusGenRootTypes['Post']; // Post!
     createTag: NexusGenRootTypes['Tag']; // Tag!
     deletePost: boolean; // Boolean!
-    deleteTag: boolean | null; // Boolean
+    deleteTag: boolean; // Boolean!
     publishPost: boolean; // Boolean!
     updatePost: NexusGenRootTypes['Post']; // Post!
     updateTag: NexusGenRootTypes['Tag']; // Tag!
@@ -180,16 +180,16 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     private: boolean; // Boolean!
     publishedAt: NexusGenScalars['Date'] | null; // Date
-    tags: NexusGenRootTypes['Tag'][] | null; // [Tag!]
+    tags: NexusGenRootTypes['Tag'][]; // [Tag!]!
     thumbnail: NexusGenRootTypes['Image']; // Image!
     title: string; // String!
     updatedAt: NexusGenScalars['Date']; // Date!
   }
   Query: { // field return type
     post: NexusGenRootTypes['Post']; // Post!
-    posts: NexusGenRootTypes['Post'][] | null; // [Post!]
-    publishedPosts: NexusGenRootTypes['Post'][] | null; // [Post!]
-    tags: NexusGenRootTypes['Tag'][] | null; // [Tag!]
+    posts: NexusGenRootTypes['Post'][]; // [Post!]!
+    publishedPosts: NexusGenRootTypes['Post'][]; // [Post!]!
+    tags: NexusGenRootTypes['Tag'][]; // [Tag!]!
   }
   Tag: { // field return type
     color: NexusGenScalars['Color']; // Color!
