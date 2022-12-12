@@ -12,10 +12,16 @@ export const TagType = objectType({
       async resolve(source, args, { db }) {
         if (!source.id) return [];
 
-        return db.post.findMany({
-          where: { tag: { every: { id: { equals: source.id } } } },
-          include: { thumbnail: true },
+        const tag = await db.tag.findUniqueOrThrow({
+          where: { id: source.id },
+          select: {
+            posts: {
+              select: { Post: { include: { thumbnail: true } } },
+            },
+          },
         });
+
+        return tag.posts.map((p) => p.Post);
       },
     });
   },

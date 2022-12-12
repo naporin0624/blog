@@ -29,9 +29,9 @@ export const PostMutation = extendType({
                 imageId: result.id,
               },
             },
-            tag: { connect: (tag ?? []).map((t) => ({ id: t })) },
+            tag: { create: tag?.map((id) => ({ Tag: { connect: { id } } })) ?? [] },
           },
-          include: { thumbnail: true },
+          include: { thumbnail: true, tag: { select: { Tag: true } } },
         });
 
         return post;
@@ -66,7 +66,7 @@ export const PostMutation = extendType({
             ...(rest.private ? { private: rest.private } : {}),
             ...(rest.publishedAt ? { publishedAt: rest.publishedAt } : {}),
             ...(uploadResult ? { thumbnail: { create: { provider: "cloudflare", imageId: uploadResult.id } } } : {}),
-            tag: { connect: rest.tag?.map((id) => ({ id })) ?? [] },
+            tag: { create: rest.tag?.map((id) => ({ Tag: { connect: { id } } })) ?? [] },
           },
           include: { thumbnail: true },
         });

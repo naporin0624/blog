@@ -3,32 +3,27 @@
  * Do not make changes to this file directly
  */
 
-import type { Context } from "./../context";
-import type { Upload } from "./../graphql/shared/scalar/upload";
-import type { core, connectionPluginCore } from "nexus";
-import type { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin";
-import type { QueryComplexity } from "nexus/dist/plugins/queryComplexityPlugin";
+
+import type { Context } from "./../context"
+import type { Upload } from "./../graphql/shared/scalar/upload"
+import type { core, connectionPluginCore } from "nexus"
+import type { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin"
+import type { QueryComplexity } from "nexus/dist/plugins/queryComplexityPlugin"
 declare global {
   interface NexusGenCustomInputMethods<TypeName extends string> {
     /**
      * Date custom scalar type
      */
-    date<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void; // "Date";
-    color<FieldName extends string>(
-      fieldName: FieldName,
-      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
-    ): void; // "Color";
+    date<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Date";
+    color<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Color";
     /**
      * url
      */
-    url<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void; // "URL";
+    url<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "URL";
     /**
      * The `Upload` scalar type represents a file upload.
      */
-    upload<FieldName extends string>(
-      fieldName: FieldName,
-      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
-    ): void; // "Upload";
+    upload<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "Upload";
   }
 }
 declare global {
@@ -36,16 +31,16 @@ declare global {
     /**
      * Date custom scalar type
      */
-    date<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void; // "Date";
-    color<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void; // "Color";
+    date<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Date";
+    color<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Color";
     /**
      * url
      */
-    url<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void; // "URL";
+    url<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "URL";
     /**
      * The `Upload` scalar type represents a file upload.
      */
-    upload<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void; // "Upload";
+    upload<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Upload";
     /**
      * Adds a Relay-style connection to the type, with numerous options for configuration
      *
@@ -53,279 +48,250 @@ declare global {
      */
     connectionField<FieldName extends string>(
       fieldName: FieldName,
-      config: connectionPluginCore.ConnectionFieldConfig<TypeName, FieldName> & {
-        totalCount?: connectionPluginCore.ConnectionFieldResolver<TypeName, FieldName, "totalCount">;
-      }
-    ): void;
+      config: connectionPluginCore.ConnectionFieldConfig<TypeName, FieldName> & { totalCount?: connectionPluginCore.ConnectionFieldResolver<TypeName, FieldName, "totalCount"> }
+    ): void
   }
 }
+
 
 declare global {
   interface NexusGen extends NexusGenTypes {}
 }
 
 export interface NexusGenInputs {
-  CreatePostInput: {
-    // input type
+  CreatePostInput: { // input type
     body: string; // String!
     private?: boolean | null; // Boolean
-    publishedAt?: NexusGenScalars["Date"] | null; // Date
+    publishedAt?: NexusGenScalars['Date'] | null; // Date
     tag?: number[] | null; // [Int!]
-    thumbnail: NexusGenScalars["Upload"]; // Upload!
+    thumbnail: NexusGenScalars['Upload']; // Upload!
     title: string; // String!
-  };
-  CreateTagInput: {
-    // input type
-    color: NexusGenScalars["Color"]; // Color!
+  }
+  CreateTagInput: { // input type
+    color: NexusGenScalars['Color']; // Color!
     name: string; // String!
-  };
-  PostOrderInput: {
-    // input type
-    publishedAt?: NexusGenEnums["Order"] | null; // Order
-    title?: NexusGenEnums["Order"] | null; // Order
-  };
-  PostUniqueWhereInput: {
-    // input type
+  }
+  PostOrderInput: { // input type
+    publishedAt?: NexusGenEnums['Order'] | null; // Order
+    title?: NexusGenEnums['Order'] | null; // Order
+  }
+  PostUniqueWhereInput: { // input type
     id: number; // Int!
-  };
-  PostWhereInput: {
-    // input type
-    publishedAt?: NexusGenScalars["Date"] | null; // Date
+  }
+  PostWhereInput: { // input type
+    publishedAt?: NexusGenScalars['Date'] | null; // Date
     tag?: string | null; // String
     title?: string | null; // String
-  };
-  TagUniqueWhereInput: {
-    // input type
+  }
+  TagUniqueWhereInput: { // input type
     id: number; // Int!
-  };
-  TagWhereInput: {
-    // input type
+  }
+  TagWhereInput: { // input type
+    contains?: string | null; // String
     id?: number[] | null; // [Int!]
     name?: string[] | null; // [String!]
-  };
-  UpdatePostInput: {
-    // input type
+  }
+  UpdatePostInput: { // input type
     body?: string | null; // String
     private?: boolean | null; // Boolean
-    publishedAt?: NexusGenScalars["Date"] | null; // Date
+    publishedAt?: NexusGenScalars['Date'] | null; // Date
     tag: number[] | null; // [Int!]
-    thumbnail?: NexusGenScalars["Upload"] | null; // Upload
+    thumbnail?: NexusGenScalars['Upload'] | null; // Upload
     title?: string | null; // String
-  };
-  UpdateTagInput: {
-    // input type
-    color?: NexusGenScalars["Color"] | null; // Color
+  }
+  UpdateTagInput: { // input type
+    color?: NexusGenScalars['Color'] | null; // Color
     name?: string | null; // String
-  };
+  }
 }
 
 export interface NexusGenEnums {
-  Order: "asc" | "desc";
+  Order: "asc" | "desc"
 }
 
 export interface NexusGenScalars {
-  String: string;
-  Int: number;
-  Float: number;
-  Boolean: boolean;
-  ID: string;
-  Color: string;
-  Date: Date;
-  URL: string;
-  Upload: Upload;
+  String: string
+  Int: number
+  Float: number
+  Boolean: boolean
+  ID: string
+  Color: string
+  Date: Date
+  URL: string
+  Upload: Upload
 }
 
 export interface NexusGenObjects {
-  Image: {
-    // root type
+  Image: { // root type
     id: number; // Int!
     imageId: string; // String!
-  };
+  }
   Mutation: {};
-  Post: {
-    // root type
+  Post: { // root type
     body: string; // String!
-    createdAt: NexusGenScalars["Date"]; // Date!
+    createdAt: NexusGenScalars['Date']; // Date!
     id: number; // Int!
     private: boolean; // Boolean!
-    publishedAt?: NexusGenScalars["Date"] | null; // Date
-    thumbnail: NexusGenRootTypes["Image"]; // Image!
+    publishedAt?: NexusGenScalars['Date'] | null; // Date
+    thumbnail: NexusGenRootTypes['Image']; // Image!
     title: string; // String!
-    updatedAt: NexusGenScalars["Date"]; // Date!
-  };
+    updatedAt: NexusGenScalars['Date']; // Date!
+  }
   Query: {};
-  Tag: {
-    // root type
-    color: NexusGenScalars["Color"]; // Color!
+  Tag: { // root type
+    color: NexusGenScalars['Color']; // Color!
     id: number; // Int!
     name: string; // String!
-  };
+  }
 }
 
-export interface NexusGenInterfaces {}
+export interface NexusGenInterfaces {
+}
 
-export interface NexusGenUnions {}
+export interface NexusGenUnions {
+}
 
-export type NexusGenRootTypes = NexusGenObjects;
+export type NexusGenRootTypes = NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums;
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
-  Image: {
-    // field return type
+  Image: { // field return type
     blur: string; // String!
     id: number; // Int!
     imageId: string; // String!
     large: string; // String!
     medium: string; // String!
     small: string; // String!
-  };
-  Mutation: {
-    // field return type
-    createPost: NexusGenRootTypes["Post"]; // Post!
-    createTag: NexusGenRootTypes["Tag"]; // Tag!
+  }
+  Mutation: { // field return type
+    createPost: NexusGenRootTypes['Post']; // Post!
+    createTag: NexusGenRootTypes['Tag']; // Tag!
     deletePost: boolean; // Boolean!
     deleteTag: boolean | null; // Boolean
     publishPost: boolean; // Boolean!
-    updatePost: NexusGenRootTypes["Post"]; // Post!
-    updateTag: NexusGenRootTypes["Tag"]; // Tag!
-  };
-  Post: {
-    // field return type
+    updatePost: NexusGenRootTypes['Post']; // Post!
+    updateTag: NexusGenRootTypes['Tag']; // Tag!
+  }
+  Post: { // field return type
     abstract: string; // String!
     body: string; // String!
-    createdAt: NexusGenScalars["Date"]; // Date!
+    createdAt: NexusGenScalars['Date']; // Date!
     id: number; // Int!
     private: boolean; // Boolean!
-    publishedAt: NexusGenScalars["Date"] | null; // Date
-    tags: NexusGenRootTypes["Tag"][] | null; // [Tag!]
-    thumbnail: NexusGenRootTypes["Image"]; // Image!
+    publishedAt: NexusGenScalars['Date'] | null; // Date
+    tags: NexusGenRootTypes['Tag'][] | null; // [Tag!]
+    thumbnail: NexusGenRootTypes['Image']; // Image!
     title: string; // String!
-    updatedAt: NexusGenScalars["Date"]; // Date!
-  };
-  Query: {
-    // field return type
-    post: NexusGenRootTypes["Post"]; // Post!
-    posts: NexusGenRootTypes["Post"][] | null; // [Post!]
-    publishedPosts: NexusGenRootTypes["Post"][] | null; // [Post!]
-    tags: NexusGenRootTypes["Tag"][] | null; // [Tag!]
-  };
-  Tag: {
-    // field return type
-    color: NexusGenScalars["Color"]; // Color!
+    updatedAt: NexusGenScalars['Date']; // Date!
+  }
+  Query: { // field return type
+    post: NexusGenRootTypes['Post']; // Post!
+    posts: NexusGenRootTypes['Post'][] | null; // [Post!]
+    publishedPosts: NexusGenRootTypes['Post'][] | null; // [Post!]
+    tags: NexusGenRootTypes['Tag'][] | null; // [Tag!]
+  }
+  Tag: { // field return type
+    color: NexusGenScalars['Color']; // Color!
     id: number; // Int!
     name: string; // String!
-    posts: NexusGenRootTypes["Post"][]; // [Post!]!
-  };
+    posts: NexusGenRootTypes['Post'][]; // [Post!]!
+  }
 }
 
 export interface NexusGenFieldTypeNames {
-  Image: {
-    // field return type name
-    blur: "String";
-    id: "Int";
-    imageId: "String";
-    large: "String";
-    medium: "String";
-    small: "String";
-  };
-  Mutation: {
-    // field return type name
-    createPost: "Post";
-    createTag: "Tag";
-    deletePost: "Boolean";
-    deleteTag: "Boolean";
-    publishPost: "Boolean";
-    updatePost: "Post";
-    updateTag: "Tag";
-  };
-  Post: {
-    // field return type name
-    abstract: "String";
-    body: "String";
-    createdAt: "Date";
-    id: "Int";
-    private: "Boolean";
-    publishedAt: "Date";
-    tags: "Tag";
-    thumbnail: "Image";
-    title: "String";
-    updatedAt: "Date";
-  };
-  Query: {
-    // field return type name
-    post: "Post";
-    posts: "Post";
-    publishedPosts: "Post";
-    tags: "Tag";
-  };
-  Tag: {
-    // field return type name
-    color: "Color";
-    id: "Int";
-    name: "String";
-    posts: "Post";
-  };
+  Image: { // field return type name
+    blur: 'String'
+    id: 'Int'
+    imageId: 'String'
+    large: 'String'
+    medium: 'String'
+    small: 'String'
+  }
+  Mutation: { // field return type name
+    createPost: 'Post'
+    createTag: 'Tag'
+    deletePost: 'Boolean'
+    deleteTag: 'Boolean'
+    publishPost: 'Boolean'
+    updatePost: 'Post'
+    updateTag: 'Tag'
+  }
+  Post: { // field return type name
+    abstract: 'String'
+    body: 'String'
+    createdAt: 'Date'
+    id: 'Int'
+    private: 'Boolean'
+    publishedAt: 'Date'
+    tags: 'Tag'
+    thumbnail: 'Image'
+    title: 'String'
+    updatedAt: 'Date'
+  }
+  Query: { // field return type name
+    post: 'Post'
+    posts: 'Post'
+    publishedPosts: 'Post'
+    tags: 'Tag'
+  }
+  Tag: { // field return type name
+    color: 'Color'
+    id: 'Int'
+    name: 'String'
+    posts: 'Post'
+  }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
-    createPost: {
-      // args
-      data: NexusGenInputs["CreatePostInput"]; // CreatePostInput!
-    };
-    createTag: {
-      // args
-      data: NexusGenInputs["CreateTagInput"]; // CreateTagInput!
-    };
-    deletePost: {
-      // args
-      where: NexusGenInputs["PostUniqueWhereInput"]; // PostUniqueWhereInput!
-    };
-    deleteTag: {
-      // args
-      where: NexusGenInputs["TagUniqueWhereInput"]; // TagUniqueWhereInput!
-    };
-    publishPost: {
-      // args
-      where: NexusGenInputs["PostUniqueWhereInput"]; // PostUniqueWhereInput!
-    };
-    updatePost: {
-      // args
-      data: NexusGenInputs["UpdatePostInput"]; // UpdatePostInput!
-      where: NexusGenInputs["PostUniqueWhereInput"]; // PostUniqueWhereInput!
-    };
-    updateTag: {
-      // args
-      data: NexusGenInputs["UpdateTagInput"]; // UpdateTagInput!
-      where: NexusGenInputs["TagUniqueWhereInput"]; // TagUniqueWhereInput!
-    };
-  };
+    createPost: { // args
+      data: NexusGenInputs['CreatePostInput']; // CreatePostInput!
+    }
+    createTag: { // args
+      data: NexusGenInputs['CreateTagInput']; // CreateTagInput!
+    }
+    deletePost: { // args
+      where: NexusGenInputs['PostUniqueWhereInput']; // PostUniqueWhereInput!
+    }
+    deleteTag: { // args
+      where: NexusGenInputs['TagUniqueWhereInput']; // TagUniqueWhereInput!
+    }
+    publishPost: { // args
+      where: NexusGenInputs['PostUniqueWhereInput']; // PostUniqueWhereInput!
+    }
+    updatePost: { // args
+      data: NexusGenInputs['UpdatePostInput']; // UpdatePostInput!
+      where: NexusGenInputs['PostUniqueWhereInput']; // PostUniqueWhereInput!
+    }
+    updateTag: { // args
+      data: NexusGenInputs['UpdateTagInput']; // UpdateTagInput!
+      where: NexusGenInputs['TagUniqueWhereInput']; // TagUniqueWhereInput!
+    }
+  }
   Query: {
-    post: {
-      // args
-      where: NexusGenInputs["PostUniqueWhereInput"]; // PostUniqueWhereInput!
-    };
-    posts: {
-      // args
-      order: NexusGenInputs["PostOrderInput"] | null; // PostOrderInput
-      where?: NexusGenInputs["PostWhereInput"] | null; // PostWhereInput
-    };
-    publishedPosts: {
-      // args
-      order: NexusGenInputs["PostOrderInput"] | null; // PostOrderInput
-      where?: NexusGenInputs["PostWhereInput"] | null; // PostWhereInput
-    };
-    tags: {
-      // args
-      where?: NexusGenInputs["TagWhereInput"] | null; // TagWhereInput
-    };
-  };
+    post: { // args
+      where: NexusGenInputs['PostUniqueWhereInput']; // PostUniqueWhereInput!
+    }
+    posts: { // args
+      order: NexusGenInputs['PostOrderInput'] | null; // PostOrderInput
+      where?: NexusGenInputs['PostWhereInput'] | null; // PostWhereInput
+    }
+    publishedPosts: { // args
+      order: NexusGenInputs['PostOrderInput'] | null; // PostOrderInput
+      where?: NexusGenInputs['PostWhereInput'] | null; // PostWhereInput
+    }
+    tags: { // args
+      where?: NexusGenInputs['TagWhereInput'] | null; // TagWhereInput
+    }
+  }
 }
 
-export interface NexusGenAbstractTypeMembers {}
+export interface NexusGenAbstractTypeMembers {
+}
 
-export interface NexusGenTypeInterfaces {}
+export interface NexusGenTypeInterfaces {
+}
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
@@ -345,11 +311,11 @@ export type NexusGenAbstractsUsingStrategyResolveType = never;
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {
-    resolveType: true;
-    __typename: false;
-    isTypeOf: false;
-  };
-};
+    resolveType: true
+    __typename: false
+    isTypeOf: false
+  }
+}
 
 export interface NexusGenTypes {
   context: Context;
@@ -367,25 +333,24 @@ export interface NexusGenTypes {
   interfaceNames: NexusGenInterfaceNames;
   scalarNames: NexusGenScalarNames;
   unionNames: NexusGenUnionNames;
-  allInputTypes: NexusGenTypes["inputNames"] | NexusGenTypes["enumNames"] | NexusGenTypes["scalarNames"];
-  allOutputTypes:
-    | NexusGenTypes["objectNames"]
-    | NexusGenTypes["enumNames"]
-    | NexusGenTypes["unionNames"]
-    | NexusGenTypes["interfaceNames"]
-    | NexusGenTypes["scalarNames"];
-  allNamedTypes: NexusGenTypes["allInputTypes"] | NexusGenTypes["allOutputTypes"];
-  abstractTypes: NexusGenTypes["interfaceNames"] | NexusGenTypes["unionNames"];
+  allInputTypes: NexusGenTypes['inputNames'] | NexusGenTypes['enumNames'] | NexusGenTypes['scalarNames'];
+  allOutputTypes: NexusGenTypes['objectNames'] | NexusGenTypes['enumNames'] | NexusGenTypes['unionNames'] | NexusGenTypes['interfaceNames'] | NexusGenTypes['scalarNames'];
+  allNamedTypes: NexusGenTypes['allInputTypes'] | NexusGenTypes['allOutputTypes']
+  abstractTypes: NexusGenTypes['interfaceNames'] | NexusGenTypes['unionNames'];
   abstractTypeMembers: NexusGenAbstractTypeMembers;
   objectsUsingAbstractStrategyIsTypeOf: NexusGenObjectsUsingAbstractStrategyIsTypeOf;
   abstractsUsingStrategyResolveType: NexusGenAbstractsUsingStrategyResolveType;
   features: NexusGenFeaturesConfig;
 }
 
+
 declare global {
-  interface NexusGenPluginTypeConfig<TypeName extends string> {}
-  interface NexusGenPluginInputTypeConfig<TypeName extends string> {}
+  interface NexusGenPluginTypeConfig<TypeName extends string> {
+  }
+  interface NexusGenPluginInputTypeConfig<TypeName extends string> {
+  }
   interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {
+    
     /**
      * Authorization for an individual field. Returning "true"
      * or "Promise<true>" means the field can be accessed.
@@ -394,15 +359,18 @@ declare global {
      * Returning or throwing an error will also prevent the
      * resolver from executing.
      */
-    authorize?: FieldAuthorizeResolver<TypeName, FieldName>;
+    authorize?: FieldAuthorizeResolver<TypeName, FieldName>
     /**
      * The complexity for an individual field. Return a number
      * or a function that returns a number to specify the
      * complexity for this field.
      */
-    complexity?: QueryComplexity<TypeName, FieldName>;
+    complexity?: QueryComplexity<TypeName, FieldName>
   }
-  interface NexusGenPluginInputFieldConfig<TypeName extends string, FieldName extends string> {}
-  interface NexusGenPluginSchemaConfig {}
-  interface NexusGenPluginArgConfig {}
+  interface NexusGenPluginInputFieldConfig<TypeName extends string, FieldName extends string> {
+  }
+  interface NexusGenPluginSchemaConfig {
+  }
+  interface NexusGenPluginArgConfig {
+  }
 }

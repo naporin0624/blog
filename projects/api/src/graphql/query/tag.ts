@@ -12,6 +12,7 @@ export const TagsQuery = extendType({
             where: {
               ...(where?.id ? { id: { in: where.id } } : {}),
               ...(where?.name ? { name: { in: where.name } } : {}),
+              ...(where?.contains ? { name: { contains: where.contains } } : {}),
             },
           });
         } catch {

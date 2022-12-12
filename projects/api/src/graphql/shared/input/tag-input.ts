@@ -5,6 +5,7 @@ export const TagWhereInput = inputObjectType({
   definition(t) {
     t.list.nonNull.int("id");
     t.list.nonNull.string("name");
+    t.string("contains");
   },
 });
 

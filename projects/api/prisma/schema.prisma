@@ -7,34 +7,47 @@ generator client {
 }
 
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Post {
-  id        Int     @id @default(autoincrement())
-  thumbnail Image   @relation(fields: [imageId], references: [id])
+  id        Int           @id @default(autoincrement())
+  thumbnail Image         @relation(fields: [imageId], references: [id])
   title     String
   body      String
-  tag       Tag[]
+  tag       PostsOnTags[]
   private   Boolean
 
   publishedAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now()) @updatedAt
   imageId     Int
+
+  @@index([imageId])
 }
 
 model Tag {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
+  id        Int           @id @default(autoincrement())
+  name      String        @unique
   color     String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now()) @updatedAt
   deletedAt DateTime?
+  posts     PostsOnTags[]
+}
 
-  Post   Post? @relation(fields: [postId], references: [id])
-  postId Int?
+model PostsOnTags {
+  postId Int
+  Post   Post @relation(fields: [postId], references: [id])
+
+  tagId Int
+  Tag   Tag @relation(fields: [tagId], references: [id])
+
+  @@id([postId, tagId])
+  @@index([postId])
+  @@index([tagId])
 }
 
 model Image {

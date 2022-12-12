@@ -28,7 +28,12 @@ export const PostType = objectType({
         if (!source.id) return [];
 
         try {
-          return db.tag.findMany({ where: { postId: source.id } });
+          const post = await db.post.findUniqueOrThrow({
+            where: { id: source.id },
+            select: { tag: { select: { Tag: true } } },
+          });
+
+          return post.tag.map((t) => t.Tag);
         } catch {
           return [];
         }

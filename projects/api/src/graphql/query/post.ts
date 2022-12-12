@@ -31,8 +31,8 @@ export const PostQuery = extendType({
                   },
                 }
               : {}),
-            ...(where?.tag ? { tag: { every: { name: { contains: where.tag } } } } : {}),
             ...(where?.title ? { title: { contains: where.title } } : {}),
+            ...(where?.tag ? { tag: { every: { Tag: { name: { contains: where.tag } } } } } : {}),
             private: false,
           },
           orderBy: {
@@ -71,7 +71,7 @@ export const PostQuery = extendType({
                       },
                     }
                   : {}),
-                ...(where?.tag ? { tag: { every: { name: { contains: where.tag } } } } : {}),
+                ...(where?.tag ? { tag: { every: { Tag: { name: { contains: where.tag } } } } } : {}),
                 ...(where?.title ? { title: { contains: where.title } } : {}),
                 private: false,
               },
